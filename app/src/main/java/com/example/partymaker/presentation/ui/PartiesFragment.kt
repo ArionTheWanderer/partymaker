@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.partymaker.R
+import com.example.partymaker.databinding.FragmentPartiesListBinding
 import com.example.partymaker.presentation.ui.placeholder.PlaceholderContent
 
 /**
@@ -16,47 +17,17 @@ import com.example.partymaker.presentation.ui.placeholder.PlaceholderContent
  */
 class PartiesFragment : Fragment() {
 
-    private var columnCount = 1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }
+    private val adapter = PartiesRecyclerViewAdapter(PlaceholderContent.ITEMS)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_parties_list, container, false)
+    ): View =
+        FragmentPartiesListBinding.inflate(inflater, container, false).root
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = PartiesRecyclerViewAdapter(PlaceholderContent.ITEMS)
-            }
-        }
-        return view
-    }
 
-    companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            PartiesFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val binding = FragmentPartiesListBinding.bind(view)
+        binding.rvParties.adapter = adapter
     }
 }

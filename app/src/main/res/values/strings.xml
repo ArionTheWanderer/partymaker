@@ -8,4 +8,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="party_dialog_hint">Enter unique party name</string>
+    <string name="party_dialog_title">Create a party</string>
+    <string name="party_dialog_create_btn">Create</string>
+    <string name="party_dialog_cancel_btn">Cancel</string>
 </resources>
