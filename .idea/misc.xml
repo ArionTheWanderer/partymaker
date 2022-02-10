@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/drawable/btn_add.xml" value="0.175" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/content_main.xml" value="0.1" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_item.xml" value="0.22327898550724637" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_item_list.xml" value="0.1" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_parties.xml" value="0.12360688956433637" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_party_details.xml" value="0.22826086956521738" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
