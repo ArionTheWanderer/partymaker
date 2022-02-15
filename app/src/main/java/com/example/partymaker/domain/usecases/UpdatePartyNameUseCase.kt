@@ -7,12 +7,12 @@ import com.example.partymaker.presentation.di.main.parties.PartyScope
 import javax.inject.Inject
 
 @PartyScope
-class CreatePartyUseCase
-@Inject constructor(private val repository: IPartyRepository): ICreatePartyUseCase {
+class UpdatePartyNameUseCase
+@Inject constructor(private val repository: IPartyRepository): IUpdatePartyNameUseCase {
     override suspend fun invoke(party: Party): DataState<String> =
-        repository.insertParty(party)
+        repository.updateParty(party)
 }
 
-interface ICreatePartyUseCase {
+interface IUpdatePartyNameUseCase {
     suspend operator fun invoke(party: Party): DataState<String>
 }

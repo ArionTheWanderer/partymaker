@@ -11,7 +11,10 @@ abstract class PartyDatabase: RoomDatabase() {
     abstract fun partyDao(): PartyDao
 
     companion object {
-        @Volatile private var INSTANCE: PartyDatabase? = null
+
+        const val DB_NAME = "party_database"
+
+        /*@Volatile private var INSTANCE: PartyDatabase? = null
 
         fun getDatabase(context: Context): PartyDatabase {
             val tempInstance =
@@ -28,6 +31,6 @@ abstract class PartyDatabase: RoomDatabase() {
                 INSTANCE = instance
                 return instance
             }
-        }
+        }*/
     }
 }

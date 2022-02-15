@@ -45,13 +45,11 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation "androidx.collection:collection-ktx:1.2.0"
 
-    def nav_version = "2.4.1"
-    implementation "androidx.navigation:navigation-runtime-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-
-    def room_version = "2.4.1"
+    implementation "androidx.navigation:navigation-runtime-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
@@ -59,9 +57,16 @@ dependencies {
     // Paging 3 Integration
     implementation "androidx.room:room-paging:$room_version"
 
-    def livedata_and_viewmodel_ktx_version = "2.4.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_and_viewmodel_ktx_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$livedata_and_viewmodel_ktx_version"
+    // implementation "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_and_viewmodel_ktx_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$viewmodel_lifecycle_ktx_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_lifecycle_ktx_version"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+
+
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

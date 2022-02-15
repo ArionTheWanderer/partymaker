@@ -15,3 +15,11 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    navigation_version = '2.4.1'
+    room_version = '2.4.1'
+    viewmodel_lifecycle_ktx_version = '2.4.1'
+    coroutinesVersion = '1.6.0'
+    daggerVersion = '2.40.5'
+}

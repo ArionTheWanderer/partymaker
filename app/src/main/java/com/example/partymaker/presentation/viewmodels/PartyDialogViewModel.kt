@@ -1,32 +1,50 @@
 package com.example.partymaker.presentation.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.Party
-import com.example.partymaker.presentation.ui.model.PartyUi
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.example.partymaker.domain.usecases.ICreatePartyUseCase
+import com.example.partymaker.domain.usecases.IGetPartyUseCase
+import com.example.partymaker.domain.usecases.IUpdatePartyNameUseCase
+import com.example.partymaker.presentation.di.main.parties.PartyScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PartyDialogViewModel : ViewModel() {
-    private val _parties = MutableLiveData<DataState<PartyUi>>()
+@PartyScope
+class PartyDialogViewModel
+@Inject constructor(
+    private val createPartyUseCase: ICreatePartyUseCase,
+    private val updatePartyNameUseCase: IUpdatePartyNameUseCase,
+    private val getPartyUseCase: IGetPartyUseCase
+) : ViewModel() {
+    private val _uiState = MutableStateFlow<DataState<Party>>(DataState.Init)
+    private val _response = MutableStateFlow<DataState<String>>(DataState.Init)
 
-    val parties: LiveData<DataState<PartyUi>>
-        get() = _parties
+    val uiState: StateFlow<DataState<Party>>
+        get() = _uiState
 
-    fun addData(id: Long, partyName: String) {
+    val response: StateFlow<DataState<String>>
+        get() = _response
+
+    fun addData(id: Long, partyName: String) = viewModelScope.launch {
         val party = Party(id, partyName)
 
-        CoroutineScope(Dispatchers.Main.immediate).launch {
-            var actualId = id
-
-            if (id > 0) {
-                update(donut)
-            } else {
-                actualId = insert(donut)
-            }
+        val result = if (id > 0) {
+            updatePartyNameUseCase(party)
+        } else {
+            createPartyUseCase(party)
         }
+
+        _response.value = result
+
+    }
+
+    fun getParty(id: Long) = viewModelScope.launch {
+        _uiState.value = DataState.Loading
+        val party = getPartyUseCase(id)
+        _uiState.value = party
     }
 }

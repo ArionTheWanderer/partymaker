@@ -1,15 +1,25 @@
 package com.example.partymaker.presentation.ui
 
-import android.annotation.SuppressLint
-import android.app.Dialog
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
-import com.example.partymaker.R
 import com.example.partymaker.databinding.FragmentPartyDialogBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.example.partymaker.domain.common.DataState
+import com.example.partymaker.presentation.viewmodels.PartyDialogViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Named
 
-class PartyDialogFragment : DialogFragment() {
+class PartyDialogFragment : BottomSheetDialogFragment() {
 
     private enum class EditingState {
         NEW_PARTY,
@@ -17,27 +27,119 @@ class PartyDialogFragment : DialogFragment() {
     }
 
     private val args: PartyDialogFragmentArgs by navArgs()
+    private var binding: FragmentPartyDialogBinding? = null
 
-    @SuppressLint("InflateParams")
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    @Inject
+    @field:Named("partyViewModelFactory")
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    val viewModel: PartyDialogViewModel by viewModels{
+        viewModelFactory
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return FragmentPartyDialogBinding.inflate(inflater, container, false).root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = FragmentPartyDialogBinding.bind(view)
+        val receivedId = args.itemId
+
         val editingState =
-            if (args.itemId > 0) EditingState.EXISTING_PARTY
+            if (receivedId > 0) EditingState.EXISTING_PARTY
             else EditingState.NEW_PARTY
 
-        val view = layoutInflater.inflate(R.layout.fragment_party_dialog, null)
-        val binding = FragmentPartyDialogBinding.bind(view)
-        binding.etPartyDialog.setText(args.partyName)
-        return activity?.let {
-            MaterialAlertDialogBuilder(it)
-                .setTitle(resources.getString(R.string.party_dialog_title))
-                .setView(binding.root)
-                .setNegativeButton(resources.getString(R.string.party_dialog_cancel_btn)) { dialog, which ->
-                    dismiss()
+        // If we arrived here with an itemId of >= 0, then we are editing an existing item
+        if (editingState == EditingState.EXISTING_PARTY) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    // Trigger the flow and start listening for values.
+                    // Note that this happens when lifecycle is STARTED and stops
+                    // collecting when the lifecycle is STOPPED
+                    viewModel.uiState.collect { uiState ->
+                        // New value received
+                        when (uiState) {
+                            is DataState.Init -> {
+                                viewModel.getParty(receivedId)
+                            }
+                            is DataState.Loading -> showProgress(true)
+                            is DataState.Data -> {
+                                showProgress(false)
+                                Toast.makeText(requireContext(), "${uiState.data}", Toast.LENGTH_LONG).show()
+                            }
+                            is DataState.Error -> {
+                                showProgress(false)
+                                Toast.makeText(requireContext(), uiState.error, Toast.LENGTH_LONG).show()
+                                dismiss()
+                            }
+                        }
+                    }
                 }
-                .setPositiveButton(resources.getString(R.string.party_dialog_create_btn)) { dialog, which ->
-                    // Respond to positive button press
+
+            }
+        }
+
+        // When the user clicks the Done button, use the data here to either update
+        // an existing item or create a new one
+        binding?.btnPartyDialogDone?.setOnClickListener {
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    // Trigger the flow and start listening for values.
+                    // Note that this happens when lifecycle is STARTED and stops
+                    // collecting when the lifecycle is STOPPED
+                    viewModel.response.collect { response ->
+                        when (response) {
+                            is DataState.Init -> {
+                                val name = binding?.etPartyDialog?.text.toString()
+                                if (name.isNotEmpty()) {
+                                    if (editingState == EditingState.EXISTING_PARTY)
+                                        viewModel.addData(receivedId, name)
+                                    else
+                                        viewModel.addData(-1, name)
+                                } else {
+                                    Toast.makeText(requireContext(), "Empty name is not allowed!", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                            is DataState.Loading -> showProgress(true)
+                            is DataState.Data -> {
+                                showProgress(false)
+                                Toast.makeText(requireContext(), "response ${response.data}", Toast.LENGTH_LONG).show()
+                                dismiss()
+                            }
+                            is DataState.Error -> {
+                                showProgress(false)
+                                Toast.makeText(requireContext(), "response ${response.error}", Toast.LENGTH_LONG).show()
+                                dismiss()
+                            }
+                        }
+                    }
                 }
-                .create()
-        } ?: throw IllegalStateException("Activity cannot be null")
+            }
+
+
+        }
+        binding?.btnPartyDialogCancel?.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
+    private fun showProgress(isVisible: Boolean) {
+        if (isVisible) {
+            binding?.btnsPartyDialog?.visibility = View.INVISIBLE
+            binding?.pbPartyDialog?.visibility = View.VISIBLE
+        } else {
+            binding?.btnsPartyDialog?.visibility = View.VISIBLE
+            binding?.pbPartyDialog?.visibility = View.INVISIBLE
+        }
     }
 }

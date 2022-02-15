@@ -1,8 +1,8 @@
 package com.example.partymaker.data.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.partymaker.data.db.entities.PartyEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PartyDao {
@@ -10,7 +10,7 @@ interface PartyDao {
     fun getAll(): Flow<List<PartyEntity>>
 
     @Query("SELECT * FROM party WHERE id = :id")
-    suspend fun get(id: Long): PartyEntity
+    suspend fun get(id: Long): PartyEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(partyEntity: PartyEntity): Long
@@ -19,5 +19,5 @@ interface PartyDao {
     suspend fun delete(partyEntity: PartyEntity)
 
     @Update
-    suspend fun update(partyEntity: PartyEntity)
+    suspend fun update(partyEntity: PartyEntity): Int
 }
