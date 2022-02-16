@@ -1,9 +1,12 @@
 package com.example.partymaker.presentation.di
 
 import android.app.Application
+import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.example.partymaker.data.db.PartyDao
 import com.example.partymaker.data.db.PartyDatabase
+import com.example.partymaker.presentation.viewmodels.PartyViewModelFactory
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

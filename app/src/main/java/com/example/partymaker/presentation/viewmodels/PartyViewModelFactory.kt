@@ -2,11 +2,10 @@ package com.example.partymaker.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.partymaker.presentation.di.main.parties.PartyScope
+import com.example.partymaker.presentation.di.party.PartyScope
 import javax.inject.Inject
 import javax.inject.Provider
 
-@PartyScope
 class PartyViewModelFactory @Inject constructor(
     private val viewModelMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
 ) : ViewModelProvider.Factory {

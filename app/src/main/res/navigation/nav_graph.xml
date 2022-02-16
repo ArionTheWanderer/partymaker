@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/itemPartyFragment">
+    app:startDestination="@id/PartyListFragment">
 
     <fragment
-        android:id="@+id/itemPartyFragment"
-        android:name="com.example.partymaker.presentation.ui.PartiesFragment"
+        android:id="@+id/PartyListFragment"
+        android:name="com.example.partymaker.presentation.ui.PartyListFragment"
         android:label="fragment_party_list"
-        tools:layout="@layout/fragment_parties_list" >
+        tools:layout="@layout/fragment_party_list" >
         <action
             android:id="@+id/action_itemPartyFragment_to_PartyDetailsFragment"
             app:destination="@id/PartyDetailsFragment"
@@ -19,7 +19,7 @@
             app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_itemPartyFragment_to_partyDialogFragment"
-            app:destination="@id/partyDialogFragment" />
+            app:destination="@id/PartyDialogFragment" />
     </fragment>
 
     <fragment
@@ -35,13 +35,17 @@
             app:argType="string" />
     </fragment>
     <dialog
-        android:id="@+id/partyDialogFragment"
+        android:id="@+id/PartyDialogFragment"
         android:name="com.example.partymaker.presentation.ui.PartyDialogFragment"
         android:label="PartyDialogFragment" >
         <argument
             android:name="itemId"
             app:argType="long"
-            android:defaultValue="-1L" />
+            android:defaultValue="0L" />
+        <argument
+            android:name="partyName"
+            app:argType="string"
+            android:defaultValue='""' />
     </dialog>
 
 </navigation>

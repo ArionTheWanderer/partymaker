@@ -12,4 +12,5 @@
     <string name="party_dialog_title">Create a party</string>
     <string name="party_dialog_btn_done">Done</string>
     <string name="party_dialog_brn_cancel">Cancel</string>
+    <string name="btn_party_list_edit">Edit</string>
 </resources>

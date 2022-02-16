@@ -3,7 +3,7 @@ package com.example.partymaker.data.common
 import com.example.partymaker.data.db.entities.PartyEntity
 import com.example.partymaker.domain.common.Mapper
 import com.example.partymaker.domain.entities.Party
-import com.example.partymaker.presentation.di.main.parties.PartyScope
+import com.example.partymaker.presentation.di.party.PartyScope
 import javax.inject.Inject
 
 @PartyScope

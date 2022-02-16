@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.di.main.parties
+package com.example.partymaker.presentation.di.party
 
 import com.example.partymaker.data.datasources.IPartyLocalDataSource
 import com.example.partymaker.data.datasources.PartyLocalDataSource
@@ -22,6 +22,9 @@ abstract class PartyModule {
 
     @Binds
     abstract fun provideGetPartyUseCase(getPartyUseCase: GetPartyUseCase): IGetPartyUseCase
+
+    @Binds
+    abstract fun provideGetPartyListUseCase(getPartyListUseCase: GetPartyListUseCase): IGetPartyListUseCase
 
     @Binds
     abstract fun providePartyLocalDataSource(partyLocalDataSource: PartyLocalDataSource): IPartyLocalDataSource

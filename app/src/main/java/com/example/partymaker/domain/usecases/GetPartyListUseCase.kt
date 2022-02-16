@@ -4,17 +4,18 @@ import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.Party
 import com.example.partymaker.domain.repositories.IPartyRepository
 import com.example.partymaker.presentation.di.party.PartyScope
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @PartyScope
-class GetPartyUseCase
+class GetPartyListUseCase
 @Inject constructor(
     private val partyRepository: IPartyRepository
-): IGetPartyUseCase {
-    override suspend fun invoke(id: Long): DataState<Party> =
-        partyRepository.getParty(id)
+): IGetPartyListUseCase {
+    override fun invoke(): Flow<DataState<List<Party>>> =
+        partyRepository.getPartyList()
 }
 
-interface IGetPartyUseCase {
-    suspend operator fun invoke(id: Long): DataState<Party>
+interface IGetPartyListUseCase {
+    operator fun invoke(): Flow<DataState<List<Party>>>
 }

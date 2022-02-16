@@ -12,6 +12,8 @@
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_parties_list.xml" value="0.2269021739130435" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_party_details.xml" value="0.22826086956521738" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_party_dialog.xml" value="0.4" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_party_list.xml" value="0.16" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_party.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

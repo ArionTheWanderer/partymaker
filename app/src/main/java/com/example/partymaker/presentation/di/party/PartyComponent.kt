@@ -1,23 +1,21 @@
-package com.example.partymaker.presentation.di.main.parties
+package com.example.partymaker.presentation.di.party
 
-import com.example.partymaker.presentation.ui.PartiesFragment
+import com.example.partymaker.presentation.ui.PartyListFragment
 import com.example.partymaker.presentation.ui.PartyDialogFragment
 import dagger.Subcomponent
 
 @PartyScope
 @Subcomponent(
     modules = [
-        PartyViewModelModule::class,
-        PartyModule::class,
-
+        PartyViewModelsModule::class,
+        PartyModule::class
     ])
 interface PartyComponent {
-    fun inject(partiesFragment: PartiesFragment)
+    fun inject(partyListFragment: PartyListFragment)
     fun inject(partyDialogFragment: PartyDialogFragment)
 
     @Subcomponent.Factory
     interface Factory{
-
         fun create(): PartyComponent
     }
 }

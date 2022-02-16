@@ -1,21 +1,25 @@
 package com.example.partymaker.data.datasources
 
+import android.util.Log
 import com.example.partymaker.data.db.PartyDao
 import com.example.partymaker.data.db.entities.PartyEntity
-import com.example.partymaker.domain.common.DataState
-import com.example.partymaker.presentation.di.main.parties.PartyScope
+import com.example.partymaker.presentation.di.party.PartyScope
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface IPartyLocalDataSource {
     suspend fun updateParty(partyEntity: PartyEntity): Int
     suspend fun insertParty(partyEntity: PartyEntity): Long
     suspend fun getParty(id: Long): PartyEntity?
-    suspend fun getAllParties()
+    fun getAllParties(): Flow<List<PartyEntity>>
 }
+
+private const val TAG = "PartyLocalDataSource"
 
 @PartyScope
 class PartyLocalDataSource
 @Inject constructor(private val partyDao: PartyDao) : IPartyLocalDataSource {
+
     override suspend fun updateParty(partyEntity: PartyEntity): Int {
         return partyDao.update(partyEntity)
         /*val newId = partyDao.update(partyEntity)
@@ -26,6 +30,7 @@ class PartyLocalDataSource
     }
 
     override suspend fun insertParty(partyEntity: PartyEntity): Long {
+        Log.d(TAG, "BEFORE INSERT: $partyEntity")
         return partyDao.insert(partyEntity)
         /*val newId = partyDao.insert(partyEntity)
         return if (newId > 0)
@@ -42,8 +47,7 @@ class PartyLocalDataSource
         else DataState.Error("Not found")*/
     }
 
-    override suspend fun getAllParties() {
-        TODO("Not yet implemented")
-    }
+    override fun getAllParties(): Flow<List<PartyEntity>> =
+        partyDao.getAll()
 
 }

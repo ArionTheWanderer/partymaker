@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.di.main.parties
+package com.example.partymaker.presentation.di.party
 
 import javax.inject.Scope
 

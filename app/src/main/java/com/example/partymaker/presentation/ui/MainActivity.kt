@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.partymaker.R
 import com.example.partymaker.databinding.ActivityMainBinding
+import com.example.partymaker.presentation.di.Injector
 
 class MainActivity : AppCompatActivity() {
 

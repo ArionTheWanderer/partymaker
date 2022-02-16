@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.di.main.parties
+package com.example.partymaker.presentation.di
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey
@@ -11,4 +11,4 @@ import kotlin.reflect.KClass
 )
 @Retention(AnnotationRetention.RUNTIME)
 @MapKey
-annotation class PartyViewModelKey(val value: KClass<out ViewModel>)
+annotation class ViewModelKey(val value: KClass<out ViewModel>)
