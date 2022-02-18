@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface IPartyRepository {
     suspend fun insertParty(party: Party): DataState<String>
     suspend fun updateParty(party: Party): DataState<String>
+    suspend fun deleteParty(id: Long)
     fun getParty(id: Long): Flow<DataState<Party>>
     fun getPartyList(): Flow<DataState<List<Party>>>
 }

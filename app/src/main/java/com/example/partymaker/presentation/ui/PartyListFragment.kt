@@ -30,8 +30,9 @@ class PartyListFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        override fun onDeleteButtonClick(itemId: Long) {
-            TODO("Not yet implemented")
+        override fun onDeleteButtonClick(itemId: Long, partyName: String) {
+            val action = NavGraphDirections.actionGlobalPartyDeleteDialogFragment(itemId = itemId, partyName = partyName)
+            findNavController().navigate(action)
         }
     }
 

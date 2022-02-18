@@ -7,4 +7,9 @@
         android:orderInCategory="1"
         android:title="@string/action_rename"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/navigation_party_delete_dialog"
+        android:orderInCategory="2"
+        android:title="@string/action_delete"
+        app:showAsAction="never" />
 </menu>

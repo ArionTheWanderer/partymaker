@@ -3,6 +3,7 @@ package com.example.partymaker.presentation.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,7 @@ import javax.inject.Inject
 class PartyDetailsFragment : Fragment() {
 
     private val args: PartyDetailsFragmentArgs by navArgs()
+    private var partyId: Long = 0L
     private var partyName: String = " "
     private var binding: FragmentPartyDetailsBinding? = null
 
@@ -49,14 +51,25 @@ class PartyDetailsFragment : Fragment() {
 
     @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val receivedId = args.itemId
+        partyId = args.itemId
 
         binding = FragmentPartyDetailsBinding.bind(view)
         val navController = findNavController()
         binding?.toolbarPartyDetails?.inflateMenu(R.menu.menu_party_details)
         binding?.toolbarPartyDetails?.setOnMenuItemClickListener { item ->
             if (item.itemId == R.id.navigation_party_dialog) {
-                val action = NavGraphDirections.actionGlobalPartyDialogFragment(itemId = receivedId, partyName = partyName)
+                if (partyId == 0L || partyName == " ") {
+                    Toast.makeText(requireContext(), "Error: cannot resolve party", Toast.LENGTH_LONG).show()
+                    return@setOnMenuItemClickListener true
+                }
+                val action = NavGraphDirections.actionGlobalPartyDialogFragment(itemId = partyId, partyName = partyName)
+                navController.navigate(action)
+            } else if (item.itemId == R.id.navigation_party_delete_dialog) {
+                if (partyId == 0L) {
+                    Toast.makeText(requireContext(), "Error: cannot resolve party", Toast.LENGTH_LONG).show()
+                    return@setOnMenuItemClickListener true
+                }
+                val action = NavGraphDirections.actionGlobalPartyDeleteDialogFragment(itemId = partyId, partyName = partyName)
                 navController.navigate(action)
             }
             true
@@ -68,7 +81,7 @@ class PartyDetailsFragment : Fragment() {
                 viewModel.party.collect { party ->
                     when (party) {
                         is DataState.Init -> {
-                            viewModel.getParty(receivedId)
+                            viewModel.getParty(partyId)
                         }
                         is DataState.Loading -> showProgress(true)
                         is DataState.Data -> {
@@ -76,16 +89,19 @@ class PartyDetailsFragment : Fragment() {
                             binding?.tvPartyDetailsPartyName?.text = party.data.name
                             binding?.toolbarPartyDetails?.title = party.data.name
                             partyName = party.data.name
+                            partyId = party.data.id
                         }
                         is DataState.Error -> {
+                            Log.e(TAG, "onViewCreated: party.error")
                             showProgress(false)
-                            Toast.makeText(requireContext(), "Error ${party.error}", Toast.LENGTH_LONG).show()
+                            val action = NavGraphDirections.actionGlobalPartyListFragmentPopup()
+                            navController.navigate(action)
+//                            Toast.makeText(requireContext(), "Error ${party.error}", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
             }
         }
-
     }
 
     override fun onDestroyView() {
@@ -103,3 +119,5 @@ class PartyDetailsFragment : Fragment() {
         }
     }
 }
+
+private const val TAG = "PartyDetailsFragment"

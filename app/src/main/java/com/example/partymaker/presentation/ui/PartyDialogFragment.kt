@@ -88,19 +88,19 @@ class PartyDialogFragment : BottomSheetDialogFragment() {
                             is DataState.Data -> {
                                 showProgress(false)
                                 Log.d(TAG, "DataState.Data: ${response.data}")
-                                when (editingState) {
-                                    EditingState.EXISTING_PARTY ->
-                                        Toast.makeText(requireContext(), "Successfully edited!", Toast.LENGTH_SHORT).show()
-                                    EditingState.NEW_PARTY ->
-                                        Toast.makeText(requireContext(), "Successfully created!", Toast.LENGTH_SHORT).show()
-                                }
+//                                when (editingState) {
+//                                    EditingState.EXISTING_PARTY ->
+//                                        Toast.makeText(requireContext(), "Successfully edited!", Toast.LENGTH_SHORT).show()
+//                                    EditingState.NEW_PARTY ->
+//                                        Toast.makeText(requireContext(), "Successfully created!", Toast.LENGTH_SHORT).show()
+//                                }
                                 dismiss()
                             }
                             is DataState.Error -> {
                                 showProgress(false)
                                 Log.d(TAG, "DataState.Error: ${response.error}")
-                                Toast.makeText(requireContext(), "Error has occurred", Toast.LENGTH_SHORT).show()
-                                dismiss()
+                                Toast.makeText(requireContext(), response.error, Toast.LENGTH_SHORT).show()
+//                                dismiss()
                             }
                         }
                     }

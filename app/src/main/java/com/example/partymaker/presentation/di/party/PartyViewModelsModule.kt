@@ -2,6 +2,7 @@ package com.example.partymaker.presentation.di.party
 
 import androidx.lifecycle.ViewModel
 import com.example.partymaker.presentation.di.ViewModelKey
+import com.example.partymaker.presentation.ui.PartyDeleteDialogViewModel
 import com.example.partymaker.presentation.ui.PartyDetailsViewModel
 import com.example.partymaker.presentation.ui.PartyDialogViewModel
 import com.example.partymaker.presentation.ui.PartyListViewModel
@@ -11,6 +12,11 @@ import dagger.multibindings.IntoMap
 
 @Module
 abstract class PartyViewModelsModule {
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PartyDeleteDialogViewModel::class)
+    abstract fun bindPartyDeleteDialogViewModel(partyDeleteDialogViewModel: PartyDeleteDialogViewModel): ViewModel
 
     @Binds
     @IntoMap

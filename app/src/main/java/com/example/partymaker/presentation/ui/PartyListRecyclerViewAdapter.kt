@@ -30,7 +30,7 @@ class PartyListRecyclerViewAdapter(
         val item = values[position]
         holder.title.text = item.name
         holder.btnDelete.setOnClickListener {
-            mListener.onDeleteButtonClick(item.id)
+            mListener.onDeleteButtonClick(item.id, item.name)
         }
         holder.root.setOnClickListener {
             mListener.onItemClick(itemId = item.id, partyName = item.name)
@@ -58,6 +58,6 @@ class PartyListRecyclerViewAdapter(
 
     interface OnItemClickListener {
         fun onItemClick(itemId: Long, partyName: String)
-        fun onDeleteButtonClick(itemId: Long)
+        fun onDeleteButtonClick(itemId: Long, partyName: String)
     }
 }

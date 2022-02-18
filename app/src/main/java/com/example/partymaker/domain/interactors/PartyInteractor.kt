@@ -16,6 +16,9 @@ class PartyInteractor
     override suspend fun updateParty(party: Party): DataState<String> =
         partyRepository.updateParty(party)
 
+    override suspend fun deleteParty(id: Long) =
+        partyRepository.deleteParty(id)
+
     override fun getParty(id: Long): Flow<DataState<Party>> =
         partyRepository.getParty(id)
 
@@ -28,6 +31,7 @@ class PartyInteractor
 interface IPartyInteractor {
     suspend fun createParty(party: Party): DataState<String>
     suspend fun updateParty(party: Party): DataState<String>
+    suspend fun deleteParty(id: Long)
     fun getParty(id: Long): Flow<DataState<Party>>
     fun getPartyList(): Flow<DataState<List<Party>>>
 }

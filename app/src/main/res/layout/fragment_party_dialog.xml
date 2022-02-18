@@ -19,24 +19,24 @@
             android:id="@+id/et_party_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:hint="@string/party_dialog_hint"
             android:textSize="16sp"
             tools:ignore="SpeakableTextPresentCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btn_party_dialog_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:text="@string/party_dialog_brn_cancel"
         app:layout_constraintEnd_toStartOf="@id/btn_party_dialog_done"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_party_dialog" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btn_party_dialog_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

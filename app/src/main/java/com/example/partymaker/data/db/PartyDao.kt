@@ -12,12 +12,12 @@ interface PartyDao {
     @Query("SELECT * FROM party WHERE id = :id")
     fun get(id: Long): Flow<PartyEntity?>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(partyEntity: PartyEntity): Long
 
-    @Delete
-    suspend fun delete(partyEntity: PartyEntity)
+    @Query("DELETE FROM party WHERE id = :id")
+    suspend fun delete(id: Long)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun update(partyEntity: PartyEntity): Int
 }

@@ -10,6 +10,7 @@ import javax.inject.Inject
 interface IPartyLocalDataSource {
     suspend fun updateParty(partyEntity: PartyEntity): Int
     suspend fun insertParty(partyEntity: PartyEntity): Long
+    suspend fun deleteParty(id: Long)
     fun getParty(id: Long): Flow<PartyEntity?>
     fun getAllParties(): Flow<List<PartyEntity>>
 }
@@ -39,10 +40,15 @@ class PartyLocalDataSource
             DataState.Error("Not inserted.")*/
     }
 
+    override suspend fun deleteParty(id: Long) =
+        partyDao.delete(id)
+
     override fun getParty(id: Long): Flow<PartyEntity?> =
         partyDao.get(id)
 
     override fun getAllParties(): Flow<List<PartyEntity>> =
         partyDao.getAll()
+
+
 
 }

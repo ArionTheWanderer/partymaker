@@ -8,7 +8,6 @@ import com.example.partymaker.domain.entities.Party
 import com.example.partymaker.domain.repositories.IPartyRepository
 import com.example.partymaker.presentation.di.party.PartyScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -22,13 +21,13 @@ class PartyRepository
 
     override suspend fun insertParty(party: Party): DataState<String> = withContext(Dispatchers.IO) {
         val newId = partyLocalDataSource.insertParty(partyEntityMapper.mapFromDomainModel(party))
-        if (newId > 0) {
+        if (newId > -1) {
             Log.d(TAG, "Returned id = $newId")
             DataState.Data("Successfully inserted. Id = $newId")
         }
         else {
-            Log.d(TAG, "Error on inserted. Returned id = $newId")
-            DataState.Error("Not inserted.")
+            Log.e(TAG, "Error on inserted. Returned id = $newId")
+            DataState.Error("Party with the same name already exists.")
         }
     }
 
@@ -37,8 +36,11 @@ class PartyRepository
         if (rowUpdated == 1)
             DataState.Data("Successfully updated")
         else
-            DataState.Error("Not updated.")
+            DataState.Error("Party with the same name already exists.")
+    }
 
+    override suspend fun deleteParty(id: Long) = withContext(Dispatchers.IO) {
+        partyLocalDataSource.deleteParty(id)
     }
 
     override fun getParty(id: Long): Flow<DataState<Party>> {

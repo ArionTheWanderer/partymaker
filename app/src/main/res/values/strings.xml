@@ -13,4 +13,8 @@
     <string name="party_dialog_btn_done">Done</string>
     <string name="party_dialog_brn_cancel">Cancel</string>
     <string name="btn_party_list_delete">Delete</string>
+    <string name="party_delete_dialog_btn_cancel">Cancel</string>
+    <string name="party_delete_dialog_btn_yes">Yes</string>
+    <string name="party_delete_dialog_static">Are you sure you want to delete:</string>
+    <string name="action_delete">Delete</string>
 </resources>

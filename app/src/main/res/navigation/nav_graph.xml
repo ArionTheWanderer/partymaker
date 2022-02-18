@@ -29,17 +29,28 @@
     </fragment>
     <dialog
         android:id="@+id/PartyDialogFragment"
-        android:name="com.example.partymaker.presentation.ui.PartyDialogFragment"
-        android:label="PartyDialogFragment" >
+        android:name="com.example.partymaker.presentation.ui.PartyDialogFragment">
         <argument
             android:name="itemId"
-            app:argType="long"
-            android:defaultValue="0L" />
+            android:defaultValue="0L"
+            app:argType="long" />
         <argument
             android:name="partyName"
-            app:argType="string"
-            android:defaultValue=" " />
+            android:defaultValue=" "
+            app:argType="string" />
     </dialog>
+    <dialog
+        android:id="@+id/PartyDeleteDialogFragment"
+        android:name="com.example.partymaker.presentation.ui.PartyDeleteDialogFragment">
+        <argument
+            android:name="itemId"
+            app:argType="long" />
+        <argument
+            android:name="partyName"
+            app:argType="string" />
+    </dialog>
+    <action android:id="@+id/action_global_PartyDeleteDialogFragment" app:destination="@id/PartyDeleteDialogFragment"/>
     <action android:id="@+id/action_global_PartyDialogFragment" app:destination="@id/PartyDialogFragment"/>
+    <action android:id="@+id/action_global_PartyListFragment_popup" app:popUpTo="@id/PartyListFragment" />
 
 </navigation>
