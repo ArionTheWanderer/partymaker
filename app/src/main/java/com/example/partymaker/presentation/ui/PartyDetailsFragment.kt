@@ -21,6 +21,7 @@ import com.example.partymaker.NavGraphDirections
 import com.example.partymaker.R
 import com.example.partymaker.databinding.FragmentPartyDetailsBinding
 import com.example.partymaker.domain.common.DataState
+import com.example.partymaker.domain.entities.Party
 import com.example.partymaker.presentation.di.Injector
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -78,30 +79,32 @@ class PartyDetailsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getParty(partyId)
                 viewModel.party.collect { party ->
                     when (party) {
-                        is DataState.Init -> {
-                            viewModel.getParty(partyId)
-                        }
+                        is DataState.Init -> {}
                         is DataState.Loading -> showProgress(true)
                         is DataState.Data -> {
                             showProgress(false)
-                            binding?.tvPartyDetailsPartyName?.text = party.data.name
-                            binding?.toolbarPartyDetails?.title = party.data.name
-                            partyName = party.data.name
-                            partyId = party.data.id
+                            setScreenData(party.data)
                         }
                         is DataState.Error -> {
                             Log.e(TAG, "onViewCreated: party.error")
                             showProgress(false)
                             val action = NavGraphDirections.actionGlobalPartyListFragmentPopup()
                             navController.navigate(action)
-//                            Toast.makeText(requireContext(), "Error ${party.error}", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun setScreenData(party: Party) {
+        binding?.tvPartyDetailsPartyName?.text = party.name
+        binding?.toolbarPartyDetails?.title = party.name
+        partyName = party.name
+        partyId = party.id
     }
 
     override fun onDestroyView() {

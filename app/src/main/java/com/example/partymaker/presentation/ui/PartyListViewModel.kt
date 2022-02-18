@@ -27,6 +27,10 @@ class PartyListViewModel
         }
     }
 
+    fun resetErrorMessage() {
+        _partyList.value = DataState.Init
+    }
+
     override fun onCleared() {
         Injector.clearPartyComponent()
         super.onCleared()

@@ -22,7 +22,7 @@ class PartyDetailsViewModel
 
     fun getParty(partyId: Long) = viewModelScope.launch{
         _party.value = DataState.Loading
-        partyInteractor.getParty(partyId).collect() { party ->
+        partyInteractor.getParty(partyId).collect { party ->
             _party.value = party
         }
     }

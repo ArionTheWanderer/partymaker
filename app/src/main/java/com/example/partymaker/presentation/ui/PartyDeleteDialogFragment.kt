@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -51,21 +52,19 @@ class PartyDeleteDialogFragment: BottomSheetDialogFragment() {
         binding?.btnPartyDeleteDialogYes?.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.response.collect() { response ->
+                    viewModel.deleteParty(receivedId)
+                    viewModel.response.collect { response ->
                         when (response) {
-                            is DataState.Init -> {
-                                viewModel.deleteParty(receivedId)
-                            }
+                            is DataState.Init -> {}
                             is DataState.Loading -> showProgress(true)
                             is DataState.Data -> {
                                 showProgress(false)
-                                // Toast.makeText(requireContext(), "Deletion ${response.data}", Toast.LENGTH_SHORT).show()
                                 dismiss()
                             }
                             is DataState.Error -> {
                                 showProgress(false)
-                                // Toast.makeText(requireContext(), "Deletion ${response.error}", Toast.LENGTH_SHORT).show()
-                                dismiss()
+                                Toast.makeText(requireContext(), "Cannot delete", Toast.LENGTH_SHORT).show()
+                                viewModel.resetErrorMessage()
                             }
                         }
                     }

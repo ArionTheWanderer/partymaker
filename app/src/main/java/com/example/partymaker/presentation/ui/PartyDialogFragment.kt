@@ -71,36 +71,21 @@ class PartyDialogFragment : BottomSheetDialogFragment() {
                     // Trigger the flow and start listening for values.
                     // Note that this happens when lifecycle is STARTED and stops
                     // collecting when the lifecycle is STOPPED
+                    sendData(receivedId, editingState)
                     viewModel.response.collect { response ->
                         when (response) {
-                            is DataState.Init -> {
-                                val name = binding?.etPartyDialog?.text.toString()
-                                if (name.isNotEmpty()) {
-                                    if (editingState == EditingState.EXISTING_PARTY)
-                                        viewModel.addData(receivedId, name)
-                                    else
-                                        viewModel.addData(0, name)
-                                } else {
-                                    Toast.makeText(requireContext(), "Empty name is not allowed!", Toast.LENGTH_SHORT).show()
-                                }
-                            }
+                            is DataState.Init -> {}
                             is DataState.Loading -> showProgress(true)
                             is DataState.Data -> {
                                 showProgress(false)
                                 Log.d(TAG, "DataState.Data: ${response.data}")
-//                                when (editingState) {
-//                                    EditingState.EXISTING_PARTY ->
-//                                        Toast.makeText(requireContext(), "Successfully edited!", Toast.LENGTH_SHORT).show()
-//                                    EditingState.NEW_PARTY ->
-//                                        Toast.makeText(requireContext(), "Successfully created!", Toast.LENGTH_SHORT).show()
-//                                }
                                 dismiss()
                             }
                             is DataState.Error -> {
                                 showProgress(false)
                                 Log.d(TAG, "DataState.Error: ${response.error}")
                                 Toast.makeText(requireContext(), response.error, Toast.LENGTH_SHORT).show()
-//                                dismiss()
+                                viewModel.resetErrorMessage()
                             }
                         }
                     }
@@ -116,6 +101,18 @@ class PartyDialogFragment : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    private fun sendData(receivedId: Long, editingState: EditingState) {
+        val name = binding?.etPartyDialog?.text.toString()
+        if (name.isNotEmpty()) {
+            when (editingState) {
+                EditingState.EXISTING_PARTY -> viewModel.addData(receivedId, name)
+                EditingState.NEW_PARTY -> viewModel.addData(0, name)
+            }
+        } else {
+            Toast.makeText(requireContext(), "Empty name is not allowed!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun showProgress(isVisible: Boolean) {

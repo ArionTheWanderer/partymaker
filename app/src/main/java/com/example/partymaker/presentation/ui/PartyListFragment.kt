@@ -69,11 +69,10 @@ class PartyListFragment : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getPartyList()
                 viewModel.partyList.collect { partyList ->
                     when (partyList) {
-                        is DataState.Init -> {
-                            viewModel.getPartyList()
-                        }
+                        is DataState.Init -> {}
                         is DataState.Loading -> showProgress(true)
                         is DataState.Data -> {
                             showProgress(false)
@@ -82,6 +81,7 @@ class PartyListFragment : Fragment() {
                         is DataState.Error -> {
                             showProgress(false)
                             Toast.makeText(requireContext(), "Error ${partyList.error}", Toast.LENGTH_LONG).show()
+                            viewModel.resetErrorMessage()
                         }
                     }
                 }

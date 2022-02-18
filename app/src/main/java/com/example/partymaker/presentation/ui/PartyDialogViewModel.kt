@@ -29,6 +29,9 @@ class PartyDialogViewModel
         }
 
         _response.value = result
+    }
 
+    fun resetErrorMessage() {
+        _response.value = DataState.Init
     }
 }

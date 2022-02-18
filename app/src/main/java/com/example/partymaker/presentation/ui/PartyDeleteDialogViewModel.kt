@@ -24,4 +24,8 @@ class PartyDeleteDialogViewModel
         partyInteractor.deleteParty(id)
         _response.value = DataState.Data("Done")
     }
+
+    fun resetErrorMessage() {
+        _response.value = DataState.Init
+    }
 }
