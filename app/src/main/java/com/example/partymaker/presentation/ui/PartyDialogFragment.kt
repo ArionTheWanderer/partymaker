@@ -48,9 +48,7 @@ class PartyDialogFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return FragmentPartyDialogBinding.inflate(inflater, container, false).root
-    }
+    ): View = FragmentPartyDialogBinding.inflate(inflater, container, false).root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentPartyDialogBinding.bind(view)
@@ -58,7 +56,7 @@ class PartyDialogFragment : BottomSheetDialogFragment() {
         val receivedPartyName = args.partyName
 
         val editingState =
-            if (receivedId > 0 && receivedPartyName != "") EditingState.EXISTING_PARTY
+            if (receivedId > 0 && receivedPartyName != " ") EditingState.EXISTING_PARTY
             else EditingState.NEW_PARTY
 
         if (editingState == EditingState.EXISTING_PARTY) {

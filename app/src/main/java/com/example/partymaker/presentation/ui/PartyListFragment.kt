@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.example.partymaker.NavGraphDirections
 import com.example.partymaker.databinding.FragmentPartyListBinding
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.presentation.di.Injector
@@ -22,14 +24,18 @@ import javax.inject.Inject
 
 class PartyListFragment : Fragment() {
 
-    private val onItemEditClickListener = object: PartiesRecyclerViewAdapter.OnEditButtonClickListener {
-        override fun onEditButtonClick(itemId: Long, name: String) {
-            val action = PartyListFragmentDirections.actionItemPartyFragmentToPartyDialogFragment(itemId = itemId, partyName = name)
+    private val onItemClickListener = object: PartyListRecyclerViewAdapter.OnItemClickListener {
+        override fun onItemClick(itemId: Long, partyName: String) {
+            val action = PartyListFragmentDirections.actionItemPartyFragmentToPartyDetailsFragment(itemId = itemId)
             findNavController().navigate(action)
+        }
+
+        override fun onDeleteButtonClick(itemId: Long) {
+            TODO("Not yet implemented")
         }
     }
 
-    private val adapter = PartiesRecyclerViewAdapter(mutableListOf(), onItemEditClickListener)
+    private val adapter = PartyListRecyclerViewAdapter(mutableListOf(), onItemClickListener)
 
     private var binding: FragmentPartyListBinding? = null
 
@@ -48,15 +54,16 @@ class PartyListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View =
-        FragmentPartyListBinding.inflate(inflater, container, false).root
+    ): View = FragmentPartyListBinding.inflate(inflater, container, false).root
 
     @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentPartyListBinding.bind(view)
+        val navController = findNavController()
+        binding?.toolbarPartyList?.setupWithNavController(navController)
         binding?.rvPartyList?.adapter = adapter
         binding?.fabPartyList?.setOnClickListener {
-            val action = PartyListFragmentDirections.actionItemPartyFragmentToPartyDialogFragment()
+            val action = NavGraphDirections.actionGlobalPartyDialogFragment()
             findNavController().navigate(action)
         }
         viewLifecycleOwner.lifecycleScope.launch {

@@ -10,7 +10,7 @@ interface PartyDao {
     fun getAll(): Flow<List<PartyEntity>>
 
     @Query("SELECT * FROM party WHERE id = :id")
-    suspend fun get(id: Long): PartyEntity?
+    fun get(id: Long): Flow<PartyEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(partyEntity: PartyEntity): Long

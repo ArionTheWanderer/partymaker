@@ -20,13 +20,6 @@ class PartyRepository
     private val partyEntityMapper: PartyEntityMapper
 ) : IPartyRepository {
 
-    private val _partyListFlow = MutableSharedFlow<DataState<List<Party>>>(
-        replay = 0,
-        extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
-    override fun listenPartyListFlow(): Flow<DataState<List<Party>>> = _partyListFlow
-
     override suspend fun insertParty(party: Party): DataState<String> = withContext(Dispatchers.IO) {
         val newId = partyLocalDataSource.insertParty(partyEntityMapper.mapFromDomainModel(party))
         if (newId > 0) {
@@ -48,12 +41,15 @@ class PartyRepository
 
     }
 
-    override suspend fun getParty(id: Long): DataState<Party> = withContext(Dispatchers.IO) {
-        val partyEntity = partyLocalDataSource.getParty(id)
-        if (partyEntity != null) {
-            val party = partyEntityMapper.mapToDomainModel(partyEntity)
-            DataState.Data(party)
-        } else DataState.Error("Not found")
+    override fun getParty(id: Long): Flow<DataState<Party>> {
+        val partyState = partyLocalDataSource.getParty(id).transform { partyEntity ->
+            if (partyEntity != null) {
+                val party = partyEntityMapper.mapToDomainModel(partyEntity)
+                emit(DataState.Data(party))
+            } else
+                emit(DataState.Error("Not found"))
+        }
+        return partyState
     }
 
     override fun getPartyList(): Flow<DataState<List<Party>>> {

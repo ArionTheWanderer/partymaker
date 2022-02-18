@@ -8,31 +8,24 @@
     <fragment
         android:id="@+id/PartyListFragment"
         android:name="com.example.partymaker.presentation.ui.PartyListFragment"
-        android:label="fragment_party_list"
-        tools:layout="@layout/fragment_party_list" >
+        android:label="Parties"
+        tools:layout="@layout/fragment_party_list">
         <action
             android:id="@+id/action_itemPartyFragment_to_PartyDetailsFragment"
             app:destination="@id/PartyDetailsFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-        <action
-            android:id="@+id/action_itemPartyFragment_to_partyDialogFragment"
-            app:destination="@id/PartyDialogFragment" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/PartyDetailsFragment"
         android:name="com.example.partymaker.presentation.ui.PartyDetailsFragment"
-        android:label="{partyName}"
         tools:layout="@layout/fragment_party_details">
         <argument
             android:name="itemId"
             app:argType="long" />
-        <argument
-            android:name="partyName"
-            app:argType="string" />
     </fragment>
     <dialog
         android:id="@+id/PartyDialogFragment"
@@ -45,7 +38,8 @@
         <argument
             android:name="partyName"
             app:argType="string"
-            android:defaultValue='""' />
+            android:defaultValue=" " />
     </dialog>
+    <action android:id="@+id/action_global_PartyDialogFragment" app:destination="@id/PartyDialogFragment"/>
 
 </navigation>

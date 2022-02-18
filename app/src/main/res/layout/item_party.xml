@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:padding="20dp">
+
     <TextView
         android:id="@+id/tv_party_list_item_title"
         android:layout_width="wrap_content"
@@ -18,11 +18,12 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Party1" />
 
-    <Button
-        android:id="@+id/btn_party_list_item_edit"
+    <ImageView
+        android:id="@+id/iv_party_list_item_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_party_list_edit"
+        android:src="@drawable/btn_delete_party_item"
+        android:text="@string/btn_party_list_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

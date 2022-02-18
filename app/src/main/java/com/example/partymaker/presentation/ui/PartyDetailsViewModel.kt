@@ -5,30 +5,25 @@ import androidx.lifecycle.viewModelScope
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.Party
 import com.example.partymaker.domain.interactors.IPartyInteractor
-import com.example.partymaker.presentation.di.Injector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PartyListViewModel
+class PartyDetailsViewModel
 @Inject constructor(
     private val partyInteractor: IPartyInteractor
 ): ViewModel() {
-    private val _partyList = MutableStateFlow<DataState<List<Party>>>(DataState.Init)
+    private val _party = MutableStateFlow<DataState<Party>>(DataState.Init)
 
-    val partyList: StateFlow<DataState<List<Party>>>
-        get() = _partyList
+    val party: StateFlow<DataState<Party>>
+        get() = _party
 
-    fun getPartyList() = viewModelScope.launch {
-        _partyList.value = DataState.Loading
-        partyInteractor.getPartyList().collect {
-            _partyList.value = it
+    fun getParty(partyId: Long) = viewModelScope.launch{
+        _party.value = DataState.Loading
+        partyInteractor.getParty(partyId).collect() { party ->
+            _party.value = party
         }
-    }
-
-    override fun onCleared() {
-        Injector.clearPartyComponent()
-        super.onCleared()
     }
 }

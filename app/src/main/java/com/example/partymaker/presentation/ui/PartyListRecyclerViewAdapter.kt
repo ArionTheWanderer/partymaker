@@ -4,20 +4,15 @@ import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
-import com.example.partymaker.presentation.ui.placeholder.PlaceholderContent.PlaceholderItem
 import com.example.partymaker.databinding.ItemPartyBinding
 import com.example.partymaker.domain.entities.Party
 
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
- */
-class PartiesRecyclerViewAdapter(
+class PartyListRecyclerViewAdapter(
     private val values: MutableList<Party>,
-    private val mListener: OnEditButtonClickListener
-) : RecyclerView.Adapter<PartiesRecyclerViewAdapter.ViewHolder>() {
+    private val mListener: OnItemClickListener
+) : RecyclerView.Adapter<PartyListRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -34,8 +29,11 @@ class PartiesRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.title.text = item.name
-        holder.btnEdit.setOnClickListener {
-            mListener.onEditButtonClick(item.id, item.name)
+        holder.btnDelete.setOnClickListener {
+            mListener.onDeleteButtonClick(item.id)
+        }
+        holder.root.setOnClickListener {
+            mListener.onItemClick(itemId = item.id, partyName = item.name)
         }
     }
 
@@ -43,7 +41,8 @@ class PartiesRecyclerViewAdapter(
 
     inner class ViewHolder(binding: ItemPartyBinding) : RecyclerView.ViewHolder(binding.root) {
         val title: TextView = binding.tvPartyListItemTitle
-        val btnEdit: Button = binding.btnPartyListItemEdit
+        val btnDelete: ImageView = binding.ivPartyListItemDelete
+        val root = binding.root
 
         override fun toString(): String {
             return super.toString() + " '" + title.text + "'"
@@ -57,7 +56,8 @@ class PartiesRecyclerViewAdapter(
         notifyDataSetChanged()
     }
 
-    interface OnEditButtonClickListener {
-        fun onEditButtonClick(itemId: Long, name: String)
+    interface OnItemClickListener {
+        fun onItemClick(itemId: Long, partyName: String)
+        fun onDeleteButtonClick(itemId: Long)
     }
 }
