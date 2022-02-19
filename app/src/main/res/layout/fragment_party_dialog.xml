@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:text="@string/party_dialog_brn_cancel"
+        android:text="@string/party_dialog_btn_cancel"
         app:layout_constraintEnd_toStartOf="@id/btn_party_dialog_done"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_party_dialog" />

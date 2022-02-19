@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/PartyListFragment"
-        android:name="com.example.partymaker.presentation.ui.PartyListFragment"
+        android:name="com.example.partymaker.presentation.ui.parties.PartyListFragment"
         android:label="Parties"
         tools:layout="@layout/fragment_party_list">
         <action
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/PartyDetailsFragment"
-        android:name="com.example.partymaker.presentation.ui.PartyDetailsFragment"
+        android:name="com.example.partymaker.presentation.ui.parties.details.PartyDetailsFragment"
         tools:layout="@layout/fragment_party_details">
         <argument
             android:name="itemId"
@@ -29,7 +29,7 @@
     </fragment>
     <dialog
         android:id="@+id/PartyDialogFragment"
-        android:name="com.example.partymaker.presentation.ui.PartyDialogFragment">
+        android:name="com.example.partymaker.presentation.ui.dialogs.PartyDialogFragment">
         <argument
             android:name="itemId"
             android:defaultValue="0L"
@@ -41,7 +41,7 @@
     </dialog>
     <dialog
         android:id="@+id/PartyDeleteDialogFragment"
-        android:name="com.example.partymaker.presentation.ui.PartyDeleteDialogFragment">
+        android:name="com.example.partymaker.presentation.ui.dialogs.PartyDeleteDialogFragment">
         <argument
             android:name="itemId"
             app:argType="long" />

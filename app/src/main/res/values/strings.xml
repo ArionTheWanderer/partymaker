@@ -1,20 +1,15 @@
 <resources>
     <string name="app_name">PartyMaker</string>
-    <string name="action_rename">Rename</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="parties_fragment_label">Parties Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_delete">Delete</string>
+
     <string name="party_dialog_hint">Enter a unique party name</string>
     <string name="party_dialog_title">Create a party</string>
     <string name="party_dialog_btn_done">Done</string>
-    <string name="party_dialog_brn_cancel">Cancel</string>
+    <string name="party_dialog_btn_cancel">Cancel</string>
     <string name="btn_party_list_delete">Delete</string>
     <string name="party_delete_dialog_btn_cancel">Cancel</string>
     <string name="party_delete_dialog_btn_yes">Yes</string>
     <string name="party_delete_dialog_static">Are you sure you want to delete:</string>
-    <string name="action_delete">Delete</string>
 </resources>

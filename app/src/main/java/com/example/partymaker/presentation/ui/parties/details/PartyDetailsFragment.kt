@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui
+package com.example.partymaker.presentation.ui.parties.details
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -23,10 +23,19 @@ import com.example.partymaker.databinding.FragmentPartyDetailsBinding
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.Party
 import com.example.partymaker.presentation.di.Injector
+import com.example.partymaker.presentation.ui.parties.details.pager.CocktailListFragment
+import com.example.partymaker.presentation.ui.parties.details.pager.DishListFragment
+import com.example.partymaker.presentation.ui.parties.details.pager.ViewPagerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PartyDetailsFragment : Fragment() {
+
+    private val tabNames: Array<String> = arrayOf(
+        "Cocktails",
+        "Dishes"
+    )
 
     private val args: PartyDetailsFragmentArgs by navArgs()
     private var partyId: Long = 0L
@@ -53,9 +62,10 @@ class PartyDetailsFragment : Fragment() {
     @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         partyId = args.itemId
-
         binding = FragmentPartyDetailsBinding.bind(view)
         val navController = findNavController()
+
+        // Toolbar & options menu setup
         binding?.toolbarPartyDetails?.inflateMenu(R.menu.menu_party_details)
         binding?.toolbarPartyDetails?.setOnMenuItemClickListener { item ->
             if (item.itemId == R.id.navigation_party_dialog) {
@@ -76,6 +86,25 @@ class PartyDetailsFragment : Fragment() {
             true
         }
         binding?.toolbarPartyDetails?.setupWithNavController(navController)
+
+        // ViewPager setup
+        val viewpager = binding?.viewpagerPartyDetails
+        val tablayout = binding?.tabsPartyDetails
+        val fragmentList = arrayListOf(
+            CocktailListFragment(),
+            DishListFragment()
+        )
+        val adapter = ViewPagerAdapter(
+            fragmentList,
+            requireActivity().supportFragmentManager,
+            lifecycle
+        )
+        viewpager?.adapter = adapter
+        if (tablayout != null && viewpager != null) {
+            TabLayoutMediator(tablayout, viewpager) { tab, position ->
+                tab.text = tabNames[position]
+            }.attach()
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -101,7 +130,6 @@ class PartyDetailsFragment : Fragment() {
     }
 
     private fun setScreenData(party: Party) {
-        binding?.tvPartyDetailsPartyName?.text = party.name
         binding?.toolbarPartyDetails?.title = party.name
         partyName = party.name
         partyId = party.id
@@ -114,10 +142,8 @@ class PartyDetailsFragment : Fragment() {
 
     private fun showProgress(isVisible: Boolean) {
         if (isVisible) {
-            binding?.tvPartyDetailsPartyName?.visibility = View.INVISIBLE
             binding?.pbPartyDetails?.visibility = View.VISIBLE
         } else {
-            binding?.tvPartyDetailsPartyName?.visibility = View.VISIBLE
             binding?.pbPartyDetails?.visibility = View.INVISIBLE
         }
     }

@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui
+package com.example.partymaker.presentation.ui.parties
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

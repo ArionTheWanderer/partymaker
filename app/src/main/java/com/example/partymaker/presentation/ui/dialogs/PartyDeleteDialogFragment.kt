@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui
+package com.example.partymaker.presentation.ui.dialogs
 
 import android.content.Context
 import android.os.Bundle

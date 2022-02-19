@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui
+package com.example.partymaker.presentation.ui.parties
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -19,6 +19,7 @@ import com.example.partymaker.NavGraphDirections
 import com.example.partymaker.databinding.FragmentPartyListBinding
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.presentation.di.Injector
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -62,7 +63,7 @@ class PartyListFragment : Fragment() {
         binding = FragmentPartyListBinding.bind(view)
         val navController = findNavController()
         binding?.toolbarPartyList?.setupWithNavController(navController)
-        binding?.rvPartyList?.adapter = adapter
+        binding?.layoutPartyListIncluded?.rvLayoutRecycler?.adapter = adapter
         binding?.fabPartyList?.setOnClickListener {
             val action = NavGraphDirections.actionGlobalPartyDialogFragment()
             findNavController().navigate(action)
@@ -80,7 +81,9 @@ class PartyListFragment : Fragment() {
                         }
                         is DataState.Error -> {
                             showProgress(false)
-                            Toast.makeText(requireContext(), "Error ${partyList.error}", Toast.LENGTH_LONG).show()
+                            binding?.root?.let {
+                                Snackbar.make(it, "Error ${partyList.error}", Snackbar.LENGTH_SHORT).show()
+                            }
                             viewModel.resetErrorMessage()
                         }
                     }
@@ -96,11 +99,13 @@ class PartyListFragment : Fragment() {
 
     private fun showProgress(isVisible: Boolean) {
         if (isVisible) {
-            binding?.contentPartyList?.visibility = View.INVISIBLE
-            binding?.pbPartyList?.visibility = View.VISIBLE
+            binding?.fabPartyList?.visibility = View.INVISIBLE
+            binding?.layoutPartyListIncluded?.rvLayoutRecycler?.visibility = View.INVISIBLE
+            binding?.layoutPartyListIncluded?.pbLayoutRecycler?.visibility = View.VISIBLE
         } else {
-            binding?.contentPartyList?.visibility = View.VISIBLE
-            binding?.pbPartyList?.visibility = View.INVISIBLE
+            binding?.fabPartyList?.visibility = View.VISIBLE
+            binding?.layoutPartyListIncluded?.rvLayoutRecycler?.visibility = View.VISIBLE
+            binding?.layoutPartyListIncluded?.pbLayoutRecycler?.visibility = View.INVISIBLE
         }
     }
 

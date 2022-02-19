@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui.model
+package com.example.partymaker.presentation.model
 
 data class PartyUi(
     val id: Long,
