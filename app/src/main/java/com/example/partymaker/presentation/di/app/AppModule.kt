@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.di
+package com.example.partymaker.presentation.di.app
 
 import android.app.Application
 import androidx.room.Room
