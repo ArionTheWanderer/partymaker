@@ -1,7 +1,7 @@
 package com.example.partymaker.presentation.di
 
 import android.app.Application
-import com.example.partymaker.presentation.di.party.PartyComponent
+import com.example.partymaker.presentation.di.activity.ActivityComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -9,22 +9,16 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        AppModule::class,
-        ViewModelFactoryModule::class,
-        AppSubcomponentsModule::class
+        AppModule::class
     ]
 )
 interface AppComponent  {
 
-    @Component.Builder
-    interface Builder{
+    fun getActivityComponentFactory(): ActivityComponent.Factory
 
-        @BindsInstance
-        fun application(application: Application): Builder
-
-        fun build(): AppComponent
+    @Component.Factory
+    interface Factory{
+        fun create(@BindsInstance application: Application): AppComponent
     }
-
-    fun plusPartyComponent(): PartyComponent.Factory
 
 }

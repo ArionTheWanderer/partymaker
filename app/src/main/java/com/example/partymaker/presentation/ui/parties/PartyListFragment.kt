@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -18,12 +17,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.partymaker.NavGraphDirections
 import com.example.partymaker.databinding.FragmentPartyListBinding
 import com.example.partymaker.domain.common.DataState
-import com.example.partymaker.presentation.di.Injector
+import com.example.partymaker.presentation.ui.common.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PartyListFragment : Fragment() {
+class PartyListFragment : BaseFragment() {
 
     private val onItemClickListener = object: PartyListRecyclerViewAdapter.OnItemClickListener {
         override fun onItemClick(itemId: Long, partyName: String) {
@@ -49,7 +48,7 @@ class PartyListFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        Injector.partyComponent()?.inject(this)
+        injector.inject(this)
         super.onAttach(context)
     }
 

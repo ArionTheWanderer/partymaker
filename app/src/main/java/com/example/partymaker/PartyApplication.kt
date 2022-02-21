@@ -1,11 +1,11 @@
 package com.example.partymaker
 
 import android.app.Application
-import com.example.partymaker.presentation.di.Injector
+import com.example.partymaker.presentation.di.AppComponent
+import com.example.partymaker.presentation.di.DaggerAppComponent
 
 class PartyApplication: Application() {
-    override fun onCreate() {
-        Injector.init(this)
-        super.onCreate()
+    val appComponent: AppComponent by lazy {
+        DaggerAppComponent.factory().create(this)
     }
 }

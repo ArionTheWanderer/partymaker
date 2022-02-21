@@ -1,11 +1,11 @@
 package com.example.partymaker.presentation.ui.parties
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.Party
 import com.example.partymaker.domain.interactors.IPartyInteractor
-import com.example.partymaker.presentation.di.Injector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -32,7 +32,9 @@ class PartyListViewModel
     }
 
     override fun onCleared() {
-        Injector.clearPartyComponent()
+        Log.d(TAG, "onCleared")
         super.onCleared()
     }
 }
+
+private const val TAG = "PartyListViewModel"

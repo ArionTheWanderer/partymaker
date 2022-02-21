@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.di.party
+package com.example.partymaker.presentation.di.activity
 
 import com.example.partymaker.data.datasources.IPartyLocalDataSource
 import com.example.partymaker.data.datasources.PartyLocalDataSource

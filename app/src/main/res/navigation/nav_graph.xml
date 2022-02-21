@@ -29,7 +29,7 @@
     </fragment>
     <dialog
         android:id="@+id/PartyDialogFragment"
-        android:name="com.example.partymaker.presentation.ui.dialogs.PartyDialogFragment">
+        android:name="com.example.partymaker.presentation.ui.parties.dialogs.PartyDialogFragment">
         <argument
             android:name="itemId"
             android:defaultValue="0L"
@@ -41,7 +41,7 @@
     </dialog>
     <dialog
         android:id="@+id/PartyDeleteDialogFragment"
-        android:name="com.example.partymaker.presentation.ui.dialogs.PartyDeleteDialogFragment">
+        android:name="com.example.partymaker.presentation.ui.parties.dialogs.PartyDeleteDialogFragment">
         <argument
             android:name="itemId"
             app:argType="long" />

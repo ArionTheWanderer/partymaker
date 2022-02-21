@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,7 @@ import com.example.partymaker.R
 import com.example.partymaker.databinding.FragmentPartyDetailsBinding
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.Party
-import com.example.partymaker.presentation.di.Injector
+import com.example.partymaker.presentation.ui.common.BaseFragment
 import com.example.partymaker.presentation.ui.parties.details.pager.CocktailListFragment
 import com.example.partymaker.presentation.ui.parties.details.pager.DishListFragment
 import com.example.partymaker.presentation.ui.parties.details.pager.ViewPagerAdapter
@@ -30,7 +29,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PartyDetailsFragment : Fragment() {
+class PartyDetailsFragment : BaseFragment() {
 
     private val tabNames: Array<String> = arrayOf(
         "Cocktails",
@@ -50,7 +49,7 @@ class PartyDetailsFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        Injector.partyComponent()?.inject(this)
+        injector.inject(this)
         super.onAttach(context)
     }
 
@@ -96,7 +95,7 @@ class PartyDetailsFragment : Fragment() {
         )
         val adapter = ViewPagerAdapter(
             fragmentList,
-            requireActivity().supportFragmentManager,
+            childFragmentManager,
             lifecycle
         )
         viewpager?.adapter = adapter

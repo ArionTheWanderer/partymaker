@@ -1,17 +1,21 @@
-package com.example.partymaker.presentation.di.party
+package com.example.partymaker.presentation.di.presentation
 
 import androidx.lifecycle.ViewModel
-import com.example.partymaker.presentation.di.ViewModelKey
-import com.example.partymaker.presentation.ui.dialogs.PartyDeleteDialogViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.partymaker.presentation.ui.parties.dialogs.PartyDeleteDialogViewModel
 import com.example.partymaker.presentation.ui.parties.details.PartyDetailsViewModel
-import com.example.partymaker.presentation.ui.dialogs.PartyDialogViewModel
+import com.example.partymaker.presentation.ui.parties.dialogs.PartyDialogViewModel
 import com.example.partymaker.presentation.ui.parties.PartyListViewModel
+import com.example.partymaker.presentation.viewmodels.PartyViewModelFactory
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-abstract class PartyViewModelsModule {
+abstract class ViewModelsModule {
+
+    @Binds
+    abstract fun bindPartyViewModelFactory(factory: PartyViewModelFactory): ViewModelProvider.Factory
 
     @Binds
     @IntoMap

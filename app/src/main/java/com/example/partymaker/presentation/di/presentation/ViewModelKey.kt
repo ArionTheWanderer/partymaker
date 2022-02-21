@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.di
+package com.example.partymaker.presentation.di.presentation
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui.dialogs
+package com.example.partymaker.presentation.ui.parties.dialogs
 
 import android.content.Context
 import android.os.Bundle
@@ -15,14 +15,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.example.partymaker.databinding.FragmentPartyDialogBinding
 import com.example.partymaker.domain.common.DataState
-import com.example.partymaker.presentation.di.Injector
+import com.example.partymaker.presentation.ui.common.BaseBottomSheetDialogFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TAG = "PartyDialogFragment"
 
-class PartyDialogFragment : BottomSheetDialogFragment() {
+class PartyDialogFragment : BaseBottomSheetDialogFragment() {
 
     private enum class EditingState {
         NEW_PARTY,
@@ -40,7 +40,7 @@ class PartyDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onAttach(context: Context) {
-        Injector.partyComponent()?.inject(this)
+        injector.inject(this)
         super.onAttach(context)
     }
 

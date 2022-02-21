@@ -6,13 +6,13 @@ import com.example.partymaker.data.datasources.IPartyLocalDataSource
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.Party
 import com.example.partymaker.domain.repositories.IPartyRepository
-import com.example.partymaker.presentation.di.party.PartyScope
+import com.example.partymaker.presentation.di.activity.ActivityScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@PartyScope
+@ActivityScope
 class PartyRepository
 @Inject constructor(
     private val partyLocalDataSource: IPartyLocalDataSource,
@@ -62,11 +62,6 @@ class PartyRepository
             emit(DataState.Data(partyList))
         }
         return partyEntityList
-        /*val partyList = partyEntityList.map {
-            partyEntityMapper.mapToDomainModel(it)
-        }
-        _partyListFlow.emit(DataState.Data(partyList))
-        DataState.Data(partyList)*/
     }
 }
 

@@ -25,7 +25,6 @@ class PartyInteractor
     override fun getPartyList(): Flow<DataState<List<Party>>> =
         partyRepository.getPartyList()
 
-
 }
 
 interface IPartyInteractor {
