@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PartyDao {
-    @Query("SELECT * FROM party")
+    @Query("SELECT * FROM party ORDER BY id DESC")
     fun getAll(): Flow<List<PartyEntity>>
 
     @Query("SELECT * FROM party WHERE id = :id")

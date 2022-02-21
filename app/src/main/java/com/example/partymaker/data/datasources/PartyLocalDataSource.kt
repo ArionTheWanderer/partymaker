@@ -39,6 +39,4 @@ class PartyLocalDataSource
     override fun getAllParties(): Flow<List<PartyEntity>> =
         partyDao.getAll()
 
-
-
 }
