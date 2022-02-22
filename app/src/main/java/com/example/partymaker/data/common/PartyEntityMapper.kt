@@ -11,13 +11,13 @@ class PartyEntityMapper
 @Inject constructor(): Mapper<Party, PartyEntity> {
     override fun mapFromDomainModel(domainModel: Party): PartyEntity =
         PartyEntity(
-            id = domainModel.id,
+            partyId = domainModel.id,
             name = domainModel.name
         )
 
     override fun mapToDomainModel(externalModel: PartyEntity): Party =
         Party(
-            id = externalModel.id,
+            id = externalModel.partyId,
             name = externalModel.name
         )
 }

@@ -6,16 +6,16 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PartyDao {
-    @Query("SELECT * FROM party ORDER BY id DESC")
+    @Query("SELECT * FROM party ORDER BY party_id DESC")
     fun getAll(): Flow<List<PartyEntity>>
 
-    @Query("SELECT * FROM party WHERE id = :id")
+    @Query("SELECT * FROM party WHERE party_id = :id")
     fun get(id: Long): Flow<PartyEntity?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(partyEntity: PartyEntity): Long
 
-    @Query("DELETE FROM party WHERE id = :id")
+    @Query("DELETE FROM party WHERE party_id = :id")
     suspend fun delete(id: Long)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
