@@ -8,7 +8,8 @@ import dagger.Subcomponent
 @ActivityScope
 @Subcomponent(
     modules = [
-        PartyModule::class
+        PartyModule::class,
+        NetworkModule::class
     ]
 )
 interface ActivityComponent {
