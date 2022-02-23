@@ -59,6 +59,8 @@ class MealSearchFragment : BaseFragment(), SearchView.OnQueryTextListener {
         searchView.queryHint = getString(R.string.meal_search_hint_search_view)
         binding?.toolbarMealSearch?.setupWithNavController(navController)
 
+        binding?.layoutMealListIncluded?.rvLayoutRecycler?.adapter = adapter
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.mealList.collect { mealList ->
@@ -102,8 +104,8 @@ class MealSearchFragment : BaseFragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
+        searchJob?.cancel()
         if (query != null && query != "") {
-            searchJob?.cancel()
             viewLifecycleOwner.lifecycleScope.launch {
                 whenStarted {
                     searchJob = viewModel.getMealByName(query)
