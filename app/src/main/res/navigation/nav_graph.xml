@@ -26,6 +26,20 @@
         <argument
             android:name="itemId"
             app:argType="long" />
+        <action
+            android:id="@+id/action_PartyDetailsFragment_to_mealSearchFragment"
+            app:destination="@id/MealSearchFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_PartyDetailsFragment_to_cocktailSearchFragment"
+            app:destination="@id/CocktailSearchFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <dialog
         android:id="@+id/PartyDialogFragment"
@@ -52,5 +66,23 @@
     <action android:id="@+id/action_global_PartyDeleteDialogFragment" app:destination="@id/PartyDeleteDialogFragment"/>
     <action android:id="@+id/action_global_PartyDialogFragment" app:destination="@id/PartyDialogFragment"/>
     <action android:id="@+id/action_global_PartyListFragment_popup" app:popUpTo="@id/PartyListFragment" />
+    <fragment
+        android:id="@+id/MealSearchFragment"
+        android:name="com.example.partymaker.presentation.ui.parties.search.meals.MealSearchFragment"
+        android:label="Searching a meal"
+        tools:layout="@layout/fragment_meal_search">
+        <argument
+            android:name="partyId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/CocktailSearchFragment"
+        android:name="com.example.partymaker.presentation.ui.parties.search.meals.CocktailSearchFragment"
+        android:label="Searching a cocktail"
+        tools:layout="@layout/fragment_cocktail_search">
+        <argument
+            android:name="partyId"
+            app:argType="long" />
+    </fragment>
 
 </navigation>

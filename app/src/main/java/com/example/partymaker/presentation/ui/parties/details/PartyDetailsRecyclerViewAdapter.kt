@@ -1,14 +1,5 @@
 package com.example.partymaker.presentation.ui.parties.details
 
-import android.annotation.SuppressLint
-import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import com.example.partymaker.databinding.ItemPartyBinding
-import com.example.partymaker.domain.entities.Party
-
 //class PartyDetailsRecyclerViewAdapter(
 //    private val values: MutableList<Party>,
 //    private val mListener: OnDeleteButtonClickListener

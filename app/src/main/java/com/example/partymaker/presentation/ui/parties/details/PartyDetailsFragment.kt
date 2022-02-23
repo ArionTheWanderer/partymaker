@@ -23,17 +23,18 @@ import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.Party
 import com.example.partymaker.presentation.ui.common.BaseFragment
 import com.example.partymaker.presentation.ui.parties.details.pager.CocktailListFragment
-import com.example.partymaker.presentation.ui.parties.details.pager.DishListFragment
+import com.example.partymaker.presentation.ui.parties.details.pager.MealListFragment
 import com.example.partymaker.presentation.ui.parties.details.pager.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PartyDetailsFragment : BaseFragment() {
+class PartyDetailsFragment : BaseFragment(), CocktailListFragment.OnCocktailAddListener,
+    MealListFragment.OnMealAddListener {
 
     private val tabNames: Array<String> = arrayOf(
         "Cocktails",
-        "Dishes"
+        "Meals"
     )
 
     private val args: PartyDetailsFragmentArgs by navArgs()
@@ -44,13 +45,14 @@ class PartyDetailsFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: PartyDetailsViewModel by viewModels{
+    private val viewModel: PartyDetailsViewModel by viewModels {
         viewModelFactory
     }
 
     override fun onAttach(context: Context) {
         injector.inject(this)
         super.onAttach(context)
+        partyId = args.itemId
     }
 
     override fun onCreateView(
@@ -60,7 +62,6 @@ class PartyDetailsFragment : BaseFragment() {
 
     @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        partyId = args.itemId
         binding = FragmentPartyDetailsBinding.bind(view)
         val navController = findNavController()
 
@@ -69,17 +70,31 @@ class PartyDetailsFragment : BaseFragment() {
         binding?.toolbarPartyDetails?.setOnMenuItemClickListener { item ->
             if (item.itemId == R.id.navigation_party_dialog) {
                 if (partyId == 0L || partyName == " ") {
-                    Toast.makeText(requireContext(), "Error: cannot resolve party", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Error: cannot resolve party",
+                        Toast.LENGTH_LONG
+                    ).show()
                     return@setOnMenuItemClickListener true
                 }
-                val action = NavGraphDirections.actionGlobalPartyDialogFragment(itemId = partyId, partyName = partyName)
+                val action = NavGraphDirections.actionGlobalPartyDialogFragment(
+                    itemId = partyId,
+                    partyName = partyName
+                )
                 navController.navigate(action)
             } else if (item.itemId == R.id.navigation_party_delete_dialog) {
                 if (partyId == 0L) {
-                    Toast.makeText(requireContext(), "Error: cannot resolve party", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Error: cannot resolve party",
+                        Toast.LENGTH_LONG
+                    ).show()
                     return@setOnMenuItemClickListener true
                 }
-                val action = NavGraphDirections.actionGlobalPartyDeleteDialogFragment(itemId = partyId, partyName = partyName)
+                val action = NavGraphDirections.actionGlobalPartyDeleteDialogFragment(
+                    itemId = partyId,
+                    partyName = partyName
+                )
                 navController.navigate(action)
             }
             true
@@ -91,7 +106,7 @@ class PartyDetailsFragment : BaseFragment() {
         val tablayout = binding?.tabsPartyDetails
         val fragmentList = arrayListOf(
             CocktailListFragment(),
-            DishListFragment()
+            MealListFragment()
         )
         val adapter = ViewPagerAdapter(
             fragmentList,
@@ -145,6 +160,22 @@ class PartyDetailsFragment : BaseFragment() {
         } else {
             binding?.pbPartyDetails?.visibility = View.INVISIBLE
         }
+    }
+
+    override fun addCocktail() {
+        val action =
+            PartyDetailsFragmentDirections.actionPartyDetailsFragmentToCocktailSearchFragment(
+                partyId = partyId
+            )
+        findNavController().navigate(action)
+    }
+
+    override fun addMeal() {
+        val action =
+            PartyDetailsFragmentDirections.actionPartyDetailsFragmentToMealSearchFragment(
+                partyId = partyId
+            )
+        findNavController().navigate(action)
     }
 }
 

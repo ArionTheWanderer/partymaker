@@ -12,4 +12,7 @@
     <string name="party_delete_dialog_btn_cancel">Cancel</string>
     <string name="party_delete_dialog_btn_yes">Yes</string>
     <string name="party_delete_dialog_static">Are you sure you want to delete:</string>
+    <string name="menu_search">Search</string>
+    <string name="meal_search_hint_search_view">Enter a meal name</string>
+    <string name="cocktail_search_hint_search_view">Enter a cocktail name</string>
 </resources>
