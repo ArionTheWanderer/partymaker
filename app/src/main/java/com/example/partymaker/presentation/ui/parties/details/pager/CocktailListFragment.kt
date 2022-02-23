@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.partymaker.databinding.FragmentCocktailListBinding
 
+private const val PARTY_ID = "PARTY_ID"
 
 class CocktailListFragment : Fragment() {
 
     private var binding: FragmentCocktailListBinding? = null
     private var listener: OnCocktailAddListener? = null
+    private var partyId: Long? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -21,6 +23,13 @@ class CocktailListFragment : Fragment() {
             listener = parentFragment as OnCocktailAddListener
         } catch (e: ClassCastException) {
             throw ClassCastException(parentFragment.toString() + " must implement OnCocktailAddListener")
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            partyId = it.getLong(PARTY_ID)
         }
     }
 
@@ -47,6 +56,16 @@ class CocktailListFragment : Fragment() {
     override fun onDestroy() {
         listener = null
         super.onDestroy()
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(partyId: Long) =
+            CocktailListFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(PARTY_ID, partyId)
+                }
+            }
     }
 
     interface OnCocktailAddListener {

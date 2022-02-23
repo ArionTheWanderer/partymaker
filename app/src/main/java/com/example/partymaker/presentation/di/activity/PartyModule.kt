@@ -19,4 +19,5 @@ abstract class PartyModule {
 
     @Binds
     abstract fun providePartyLocalDataSource(partyLocalDataSource: PartyLocalDataSource): IPartyLocalDataSource
+
 }

@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.partymaker.data.common.PartyEntityMapper
 import com.example.partymaker.data.datasources.IPartyLocalDataSource
 import com.example.partymaker.domain.common.DataState
-import com.example.partymaker.domain.entities.Party
+import com.example.partymaker.domain.entities.PartyDomain
 import com.example.partymaker.domain.repositories.IPartyRepository
 import com.example.partymaker.presentation.di.activity.ActivityScope
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ class PartyRepository
     private val partyEntityMapper: PartyEntityMapper
 ) : IPartyRepository {
 
-    override suspend fun insertParty(party: Party): DataState<String> = withContext(Dispatchers.IO) {
+    override suspend fun insertParty(party: PartyDomain): DataState<String> = withContext(Dispatchers.IO) {
         val newId = partyLocalDataSource.insertParty(partyEntityMapper.mapFromDomainModel(party))
         if (newId > -1) {
             Log.d(TAG, "Returned id = $newId")
@@ -31,7 +31,7 @@ class PartyRepository
         }
     }
 
-    override suspend fun updateParty(party: Party): DataState<String> = withContext(Dispatchers.IO) {
+    override suspend fun updateParty(party: PartyDomain): DataState<String> = withContext(Dispatchers.IO) {
         val rowUpdated = partyLocalDataSource.updateParty(partyEntityMapper.mapFromDomainModel(party))
         if (rowUpdated == 1)
             DataState.Data("Successfully updated")
@@ -43,7 +43,7 @@ class PartyRepository
         partyLocalDataSource.deleteParty(id)
     }
 
-    override fun getParty(id: Long): Flow<DataState<Party>> {
+    override fun getParty(id: Long): Flow<DataState<PartyDomain>> {
         val partyState = partyLocalDataSource.getParty(id).transform { partyEntity ->
             if (partyEntity != null) {
                 val party = partyEntityMapper.mapToDomainModel(partyEntity)
@@ -54,7 +54,7 @@ class PartyRepository
         return partyState
     }
 
-    override fun getPartyList(): Flow<DataState<List<Party>>> {
+    override fun getPartyList(): Flow<DataState<List<PartyDomain>>> {
         val partyEntityList = partyLocalDataSource.getAllParties().transform { partyEntityList ->
             val partyList = partyEntityList.map {
                 partyEntityMapper.mapToDomainModel(it)

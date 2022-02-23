@@ -9,10 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.partymaker.databinding.FragmentMealListBinding
 
+private const val PARTY_ID = "PARTY_ID"
+
 class MealListFragment : Fragment() {
 
     private var binding: FragmentMealListBinding? = null
     private var listener: OnMealAddListener? = null
+    private var partyId: Long? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -20,6 +23,13 @@ class MealListFragment : Fragment() {
             listener = parentFragment as OnMealAddListener
         } catch (e: ClassCastException) {
             throw ClassCastException(parentFragment.toString() + " must implement OnMealAddListener")
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            partyId = it.getLong(PARTY_ID)
         }
     }
 
@@ -45,6 +55,16 @@ class MealListFragment : Fragment() {
     override fun onDestroy() {
         listener = null
         super.onDestroy()
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(partyId: Long) =
+            MealListFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(PARTY_ID, partyId)
+                }
+            }
     }
 
     interface OnMealAddListener {

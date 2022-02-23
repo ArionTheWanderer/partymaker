@@ -1,6 +1,6 @@
 package com.example.partymaker.domain.entities
 
-data class Party(
+data class PartyDomain(
     val id: Long,
     val name: String
 )

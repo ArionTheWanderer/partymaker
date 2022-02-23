@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.partymaker.domain.common.DataState
-import com.example.partymaker.domain.entities.Party
+import com.example.partymaker.domain.entities.PartyDomain
 import com.example.partymaker.domain.interactors.IPartyInteractor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +21,7 @@ class PartyDialogViewModel
         get() = _response
 
     fun addData(id: Long, partyName: String) = viewModelScope.launch {
-        val party = Party(id, partyName)
+        val party = PartyDomain(id, partyName)
 
         val result = if (id > 0) {
             partyInteractor.updateParty(party)

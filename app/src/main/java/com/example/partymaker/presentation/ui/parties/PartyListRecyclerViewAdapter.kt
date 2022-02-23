@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.partymaker.databinding.ItemPartyBinding
-import com.example.partymaker.domain.entities.Party
+import com.example.partymaker.domain.entities.PartyDomain
 
 class PartyListRecyclerViewAdapter(
-    private val values: MutableList<Party>,
+    private val values: MutableList<PartyDomain>,
     private val mListener: OnItemClickListener
 ) : RecyclerView.Adapter<PartyListRecyclerViewAdapter.ViewHolder>() {
 
@@ -50,7 +50,7 @@ class PartyListRecyclerViewAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(partyList: List<Party>) {
+    fun setData(partyList: List<PartyDomain>) {
         values.clear()
         values.addAll(partyList)
         notifyDataSetChanged()

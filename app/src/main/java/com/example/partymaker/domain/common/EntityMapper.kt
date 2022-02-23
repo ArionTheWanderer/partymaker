@@ -1,6 +1,6 @@
 package com.example.partymaker.domain.common
 
-interface Mapper <DomainModel, ExternalModel> {
+interface EntityMapper <DomainModel, ExternalModel> {
 
     fun mapFromDomainModel(domainModel: DomainModel): ExternalModel
 

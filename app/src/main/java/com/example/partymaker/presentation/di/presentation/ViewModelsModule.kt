@@ -6,6 +6,7 @@ import com.example.partymaker.presentation.ui.parties.dialogs.PartyDeleteDialogV
 import com.example.partymaker.presentation.ui.parties.details.PartyDetailsViewModel
 import com.example.partymaker.presentation.ui.parties.dialogs.PartyDialogViewModel
 import com.example.partymaker.presentation.ui.parties.PartyListViewModel
+import com.example.partymaker.presentation.ui.parties.search.meals.MealSearchViewModel
 import com.example.partymaker.presentation.viewmodels.PartyViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -36,5 +37,10 @@ abstract class ViewModelsModule {
     @IntoMap
     @ViewModelKey(PartyDetailsViewModel::class)
     abstract fun bindPartyDetailsViewModel(partyDetailsViewModel: PartyDetailsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MealSearchViewModel::class)
+    abstract fun bindMealSearchViewModel(mealSearchViewModel: MealSearchViewModel): ViewModel
 
 }

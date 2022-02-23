@@ -1,13 +1,13 @@
 package com.example.partymaker.domain.repositories
 
 import com.example.partymaker.domain.common.DataState
-import com.example.partymaker.domain.entities.Party
+import com.example.partymaker.domain.entities.PartyDomain
 import kotlinx.coroutines.flow.Flow
 
 interface IPartyRepository {
-    suspend fun insertParty(party: Party): DataState<String>
-    suspend fun updateParty(party: Party): DataState<String>
+    suspend fun insertParty(party: PartyDomain): DataState<String>
+    suspend fun updateParty(party: PartyDomain): DataState<String>
     suspend fun deleteParty(id: Long)
-    fun getParty(id: Long): Flow<DataState<Party>>
-    fun getPartyList(): Flow<DataState<List<Party>>>
+    fun getParty(id: Long): Flow<DataState<PartyDomain>>
+    fun getPartyList(): Flow<DataState<List<PartyDomain>>>
 }

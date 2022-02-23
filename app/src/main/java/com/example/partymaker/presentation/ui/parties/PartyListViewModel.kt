@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.partymaker.domain.common.DataState
-import com.example.partymaker.domain.entities.Party
+import com.example.partymaker.domain.entities.PartyDomain
 import com.example.partymaker.domain.interactors.IPartyInteractor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,9 +15,9 @@ class PartyListViewModel
 @Inject constructor(
     private val partyInteractor: IPartyInteractor
 ): ViewModel() {
-    private val _partyList = MutableStateFlow<DataState<List<Party>>>(DataState.Init)
+    private val _partyList = MutableStateFlow<DataState<List<PartyDomain>>>(DataState.Init)
 
-    val partyList: StateFlow<DataState<List<Party>>>
+    val partyList: StateFlow<DataState<List<PartyDomain>>>
         get() = _partyList
 
     fun getPartyList() = viewModelScope.launch {

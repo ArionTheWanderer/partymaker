@@ -20,7 +20,7 @@ import com.example.partymaker.NavGraphDirections
 import com.example.partymaker.R
 import com.example.partymaker.databinding.FragmentPartyDetailsBinding
 import com.example.partymaker.domain.common.DataState
-import com.example.partymaker.domain.entities.Party
+import com.example.partymaker.domain.entities.PartyDomain
 import com.example.partymaker.presentation.ui.common.BaseFragment
 import com.example.partymaker.presentation.ui.parties.details.pager.CocktailListFragment
 import com.example.partymaker.presentation.ui.parties.details.pager.MealListFragment
@@ -105,8 +105,8 @@ class PartyDetailsFragment : BaseFragment(), CocktailListFragment.OnCocktailAddL
         val viewpager = binding?.viewpagerPartyDetails
         val tablayout = binding?.tabsPartyDetails
         val fragmentList = arrayListOf(
-            CocktailListFragment(),
-            MealListFragment()
+            CocktailListFragment.newInstance(partyId),
+            MealListFragment.newInstance(partyId)
         )
         val adapter = ViewPagerAdapter(
             fragmentList,
@@ -143,7 +143,7 @@ class PartyDetailsFragment : BaseFragment(), CocktailListFragment.OnCocktailAddL
         }
     }
 
-    private fun setScreenData(party: Party) {
+    private fun setScreenData(party: PartyDomain) {
         binding?.toolbarPartyDetails?.title = party.name
         partyName = party.name
         partyId = party.id

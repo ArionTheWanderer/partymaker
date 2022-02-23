@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui.parties.search.meals
+package com.example.partymaker.presentation.ui.parties.search.cocktails
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.partymaker.R
 import com.example.partymaker.databinding.FragmentCocktailSearchBinding
+import com.example.partymaker.presentation.ui.common.BaseFragment
 
-class CocktailSearchFragment: Fragment(), SearchView.OnQueryTextListener {
+class CocktailSearchFragment: BaseFragment(), SearchView.OnQueryTextListener {
 
     private var binding: FragmentCocktailSearchBinding? = null
 

@@ -77,7 +77,7 @@
     </fragment>
     <fragment
         android:id="@+id/CocktailSearchFragment"
-        android:name="com.example.partymaker.presentation.ui.parties.search.meals.CocktailSearchFragment"
+        android:name="com.example.partymaker.presentation.ui.parties.search.cocktails.CocktailSearchFragment"
         android:label="Searching a cocktail"
         tools:layout="@layout/fragment_cocktail_search">
         <argument

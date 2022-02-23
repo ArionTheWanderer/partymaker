@@ -9,6 +9,7 @@ import dagger.Subcomponent
 @Subcomponent(
     modules = [
         PartyModule::class,
+        MealModule::class,
         NetworkModule::class
     ]
 )

@@ -21,7 +21,7 @@ data class Meal(
     @SerializedName("strMealThumb")
     val thumbnailLink: String,
     @SerializedName("strYoutube")
-    val video: String,
+    val video: String?,
     @SerializedName("strIngredient1")
     val ingredient1: String?,
     @SerializedName("strIngredient2")
