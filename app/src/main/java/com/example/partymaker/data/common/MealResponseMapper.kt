@@ -4,10 +4,10 @@ import com.example.partymaker.data.network.response.Meal
 import com.example.partymaker.domain.common.ResponseMapper
 import com.example.partymaker.domain.entities.MealCategoryEnum
 import com.example.partymaker.domain.entities.MealDomain
-import com.example.partymaker.presentation.di.activity.ActivityScope
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ActivityScope
+@Singleton
 class MealResponseMapper
 @Inject constructor(): ResponseMapper<MealDomain, Meal> {
     override fun mapToDomainModel(externalModel: Meal): MealDomain {

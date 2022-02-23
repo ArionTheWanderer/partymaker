@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.di.activity
+package com.example.partymaker.presentation.di.app
 
 import com.example.partymaker.Constants
 import com.example.partymaker.data.network.api.CocktailApi
@@ -8,14 +8,24 @@ import com.example.partymaker.presentation.di.activity.qualifiers.RetrofitMeal
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 object NetworkModule {
 
     @JvmStatic
-    @ActivityScope
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(): OkHttpClient =
+        OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .build()
+
+    @JvmStatic
+    @Singleton
     @Provides
     @RetrofitMeal
     fun provideRetrofitMeal(client: OkHttpClient): Retrofit.Builder =
@@ -25,7 +35,7 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
 
     @JvmStatic
-    @ActivityScope
+    @Singleton
     @Provides
     @RetrofitCocktail
     fun provideRetrofitCocktail(client: OkHttpClient): Retrofit.Builder =
@@ -35,14 +45,14 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
 
     @JvmStatic
-    @ActivityScope
+    @Singleton
     @Provides
     fun provideMealApi(@RetrofitMeal retrofit: Retrofit.Builder): MealApi {
         return retrofit.build().create(MealApi::class.java)
     }
 
     @JvmStatic
-    @ActivityScope
+    @Singleton
     @Provides
     fun provideCocktailApi(@RetrofitCocktail retrofit: Retrofit.Builder): CocktailApi {
         return retrofit.build().create(CocktailApi::class.java)

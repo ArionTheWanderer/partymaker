@@ -6,13 +6,13 @@ import com.example.partymaker.data.datasources.IPartyLocalDataSource
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.PartyDomain
 import com.example.partymaker.domain.repositories.IPartyRepository
-import com.example.partymaker.presentation.di.activity.ActivityScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ActivityScope
+@Singleton
 class PartyRepository
 @Inject constructor(
     private val partyLocalDataSource: IPartyLocalDataSource,

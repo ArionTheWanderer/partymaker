@@ -3,9 +3,9 @@ package com.example.partymaker.data.datasources
 import android.util.Log
 import com.example.partymaker.data.db.PartyDao
 import com.example.partymaker.data.db.entities.PartyEntity
-import com.example.partymaker.presentation.di.activity.ActivityScope
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
 interface IPartyLocalDataSource {
     suspend fun updateParty(partyEntity: PartyEntity): Int
@@ -17,7 +17,7 @@ interface IPartyLocalDataSource {
 
 private const val TAG = "PartyLocalDataSource"
 
-@ActivityScope
+@Singleton
 class PartyLocalDataSource
 @Inject constructor(private val partyDao: PartyDao) : IPartyLocalDataSource {
 

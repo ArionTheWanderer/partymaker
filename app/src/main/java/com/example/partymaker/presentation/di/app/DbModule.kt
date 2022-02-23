@@ -11,7 +11,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
 
 @Module
-object AppModule {
+object DbModule {
     @JvmStatic
     @Singleton
     @Provides
@@ -29,12 +29,4 @@ object AppModule {
     fun providePartyDao(db: PartyDatabase): PartyDao {
         return db.partyDao()
     }
-
-    @JvmStatic
-    @Singleton
-    @Provides
-    fun provideOkHttpClient(): OkHttpClient =
-        OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .build()
 }

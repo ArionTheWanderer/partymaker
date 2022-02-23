@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.di.activity
+package com.example.partymaker.presentation.di.app
 
 
 import com.example.partymaker.data.datasources.IMealRemoteDataSource

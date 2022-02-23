@@ -6,13 +6,7 @@ import dagger.BindsInstance
 import dagger.Subcomponent
 
 @ActivityScope
-@Subcomponent(
-    modules = [
-        PartyModule::class,
-        MealModule::class,
-        NetworkModule::class
-    ]
-)
+@Subcomponent
 interface ActivityComponent {
     fun getPresentationComponentFactory(): PresentationComponent.Factory
 

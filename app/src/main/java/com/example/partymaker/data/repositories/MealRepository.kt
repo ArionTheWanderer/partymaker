@@ -5,12 +5,12 @@ import com.example.partymaker.data.datasources.IMealRemoteDataSource
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.MealDomain
 import com.example.partymaker.domain.repositories.IMealRepository
-import com.example.partymaker.presentation.di.activity.ActivityScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ActivityScope
+@Singleton
 class MealRepository
 @Inject constructor(
     private val mealRemoteDataSource: IMealRemoteDataSource,
