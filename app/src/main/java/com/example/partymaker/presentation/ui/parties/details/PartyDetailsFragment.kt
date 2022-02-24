@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -22,15 +23,15 @@ import com.example.partymaker.databinding.FragmentPartyDetailsBinding
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.PartyDomain
 import com.example.partymaker.presentation.ui.common.BaseFragment
-import com.example.partymaker.presentation.ui.parties.details.pager.CocktailListFragment
-import com.example.partymaker.presentation.ui.parties.details.pager.MealListFragment
 import com.example.partymaker.presentation.ui.parties.details.pager.ViewPagerAdapter
+import com.example.partymaker.presentation.ui.parties.details.pager.cocktails.CocktailListFragment
+import com.example.partymaker.presentation.ui.parties.details.pager.meals.MealListFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PartyDetailsFragment : BaseFragment(), CocktailListFragment.OnCocktailAddListener,
-    MealListFragment.OnMealAddListener {
+class PartyDetailsFragment : BaseFragment(), CocktailListFragment.OnCocktailListListener,
+    MealListFragment.OnMealListListener {
 
     private val tabNames: Array<String> = arrayOf(
         "Cocktails",
@@ -105,8 +106,8 @@ class PartyDetailsFragment : BaseFragment(), CocktailListFragment.OnCocktailAddL
         val viewpager = binding?.viewpagerPartyDetails
         val tablayout = binding?.tabsPartyDetails
         val fragmentList = arrayListOf(
-            CocktailListFragment.newInstance(partyId),
-            MealListFragment.newInstance(partyId)
+            CocktailListFragment.newInstance(partyId) as Fragment,
+            MealListFragment.newInstance(partyId) as Fragment
         )
         val adapter = ViewPagerAdapter(
             fragmentList,
@@ -170,10 +171,30 @@ class PartyDetailsFragment : BaseFragment(), CocktailListFragment.OnCocktailAddL
         findNavController().navigate(action)
     }
 
+    override fun navigateCocktails(cocktailId: Long, cocktailName: String) {
+        val action =
+            PartyDetailsFragmentDirections.actionPartyDetailsFragmentToCocktailDetailsFragment(
+                partyId = partyId,
+                cocktailId = cocktailId,
+                cocktailName = cocktailName
+            )
+        findNavController().navigate(action)
+    }
+
     override fun addMeal() {
         val action =
             PartyDetailsFragmentDirections.actionPartyDetailsFragmentToMealSearchFragment(
                 partyId = partyId
+            )
+        findNavController().navigate(action)
+    }
+
+    override fun navigateMeal(mealId: Long, mealName: String) {
+        val action =
+            PartyDetailsFragmentDirections.actionPartyDetailsFragmentToMealDetailsFragment(
+                partyId = partyId,
+                mealId = mealId,
+                mealName = mealName
             )
         findNavController().navigate(action)
     }

@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.partymaker.presentation.ui.common.BaseFragment
 
 class ViewPagerAdapter(
     list: ArrayList<Fragment>,

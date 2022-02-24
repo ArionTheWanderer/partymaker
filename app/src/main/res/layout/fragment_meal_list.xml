@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.parties.details.pager.MealListFragment">
+    tools:context=".presentation.ui.parties.details.pager.meals.MealListFragment">
 
     <include
-        android:id="@+id/layout_dishes_included"
+        android:id="@+id/layout_meals_included"
         layout="@layout/layout_recycler" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_dishes_list"
+        android:id="@+id/fab_meals_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"

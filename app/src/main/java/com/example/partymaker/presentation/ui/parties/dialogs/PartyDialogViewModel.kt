@@ -21,7 +21,7 @@ class PartyDialogViewModel
         get() = _response
 
     fun addData(id: Long, partyName: String) = viewModelScope.launch {
-        val party = PartyDomain(id, partyName)
+        val party = PartyDomain(id, partyName, meals = mutableListOf(), cocktails = mutableListOf())
 
         val result = if (id > 0) {
             partyInteractor.updateParty(party)

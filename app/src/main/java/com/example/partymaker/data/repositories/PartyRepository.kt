@@ -1,9 +1,11 @@
 package com.example.partymaker.data.repositories
 
 import android.util.Log
-import com.example.partymaker.data.common.PartyEntityMapper
+import com.example.partymaker.data.common.*
 import com.example.partymaker.data.datasources.IPartyLocalDataSource
 import com.example.partymaker.domain.common.DataState
+import com.example.partymaker.domain.entities.CocktailDomain
+import com.example.partymaker.domain.entities.MealDomain
 import com.example.partymaker.domain.entities.PartyDomain
 import com.example.partymaker.domain.repositories.ICocktailRepository
 import com.example.partymaker.domain.repositories.IMealRepository
@@ -20,8 +22,10 @@ class PartyRepository
     private val partyLocalDataSource: IPartyLocalDataSource,
     private val mealRepository: IMealRepository,
     private val cocktailRepository: ICocktailRepository,
-    private val partyEntityMapper: PartyEntityMapper
-    ) : IPartyRepository {
+    private val partyEntityMapper: PartyEntityMapper,
+    private val partyWithCocktailsEntityMapper: PartyWithCocktailsEntityMapper,
+    private val partyWithMealsEntityMapper: PartyWithMealsEntityMapper
+) : IPartyRepository {
 
     override suspend fun insertParty(party: PartyDomain): DataState<String> = withContext(Dispatchers.IO) {
         val newId = partyLocalDataSource.insertParty(partyEntityMapper.mapFromDomainModel(party))
@@ -66,6 +70,36 @@ class PartyRepository
             emit(DataState.Data(partyList))
         }
         return partyEntityList
+    }
+
+    override fun getMealsBy(partyId: Long): Flow<DataState<List<MealDomain>>> {
+        val meals = partyLocalDataSource.getPartyWithMeals(partyId).transform { partyWithMealsList ->
+            val mealList = partyWithMealsList.map {
+                val partyDomainList = partyWithMealsEntityMapper.mapToDomainModel(it)
+                partyDomainList.meals
+            }.flatten()
+            emit(DataState.Data(mealList))
+        }
+        return meals
+    }
+
+    override fun getCocktailsBy(partyId: Long): Flow<DataState<List<CocktailDomain>>> {
+        val cocktails = partyLocalDataSource.getPartyWithCocktails(partyId).transform { partyWithCocktailsList ->
+            val cocktailList = partyWithCocktailsList.map {
+                val partyDomainList = partyWithCocktailsEntityMapper.mapToDomainModel(it)
+                partyDomainList.cocktails
+            }.flatten()
+            emit(DataState.Data(cocktailList))
+        }
+        return cocktails
+    }
+
+    override suspend fun deleteMeal(mealId: Long, partyId: Long)  = withContext(Dispatchers.IO) {
+        mealRepository.deleteMeal(mealId, partyId)
+    }
+
+    override suspend fun deleteCocktail(cocktailId: Long, partyId: Long) = withContext(Dispatchers.IO) {
+        cocktailRepository.deleteCocktail(cocktailId, partyId)
     }
 }
 

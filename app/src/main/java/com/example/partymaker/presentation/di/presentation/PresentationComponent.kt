@@ -8,6 +8,8 @@ import com.example.partymaker.presentation.ui.parties.details.PartyDetailsFragme
 import com.example.partymaker.presentation.ui.cocktails.search.CocktailSearchFragment
 import com.example.partymaker.presentation.ui.meals.details.MealDetailsFragment
 import com.example.partymaker.presentation.ui.meals.search.MealSearchFragment
+import com.example.partymaker.presentation.ui.parties.details.pager.cocktails.CocktailListFragment
+import com.example.partymaker.presentation.ui.parties.details.pager.meals.MealListFragment
 import dagger.Subcomponent
 
 @PresentationScope
@@ -26,6 +28,8 @@ interface PresentationComponent {
     fun inject(cocktailSearchFragment: CocktailSearchFragment)
     fun inject(mealDetailsFragment: MealDetailsFragment)
     fun inject(cocktailDetailsFragment: CocktailDetailsFragment)
+    fun inject(mealListFragment: MealListFragment)
+    fun inject(cocktailListFragment: CocktailListFragment)
 
     @Subcomponent.Factory
     interface Factory{

@@ -3,6 +3,8 @@ package com.example.partymaker.data.datasources
 import android.util.Log
 import com.example.partymaker.data.db.PartyDao
 import com.example.partymaker.data.db.entities.PartyEntity
+import com.example.partymaker.data.db.relations.PartyWithCocktails
+import com.example.partymaker.data.db.relations.PartyWithMeals
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -10,9 +12,11 @@ import javax.inject.Singleton
 interface IPartyLocalDataSource {
     suspend fun updateParty(partyEntity: PartyEntity): Int
     suspend fun insertParty(partyEntity: PartyEntity): Long
-    suspend fun deleteParty(id: Long)
-    fun getParty(id: Long): Flow<PartyEntity?>
+    suspend fun deleteParty(partyId: Long)
+    fun getParty(partyId: Long): Flow<PartyEntity?>
     fun getAllParties(): Flow<List<PartyEntity>>
+    fun getPartyWithMeals(partyId: Long): Flow<List<PartyWithMeals>>
+    fun getPartyWithCocktails(partyId: Long): Flow<List<PartyWithCocktails>>
 }
 
 private const val TAG = "PartyLocalDataSource"
@@ -30,13 +34,22 @@ class PartyLocalDataSource
         return partyDao.insert(partyEntity)
     }
 
-    override suspend fun deleteParty(id: Long) =
-        partyDao.delete(id)
+    override suspend fun deleteParty(partyId: Long) {
+        partyDao.deletePartyMealCrossRef(partyId)
+        partyDao.deletePartyCocktailCrossRef(partyId)
+        partyDao.delete(partyId)
+    }
 
-    override fun getParty(id: Long): Flow<PartyEntity?> =
-        partyDao.get(id)
+    override fun getParty(partyId: Long): Flow<PartyEntity?> =
+        partyDao.get(partyId)
 
     override fun getAllParties(): Flow<List<PartyEntity>> =
         partyDao.getAll()
+
+    override fun getPartyWithMeals(partyId: Long): Flow<List<PartyWithMeals>> =
+        partyDao.getPartyWithMeals(partyId)
+
+    override fun getPartyWithCocktails(partyId: Long): Flow<List<PartyWithCocktails>> =
+        partyDao.getPartyWithCocktails(partyId)
 
 }

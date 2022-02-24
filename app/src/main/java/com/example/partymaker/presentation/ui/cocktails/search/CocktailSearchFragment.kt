@@ -19,8 +19,6 @@ import com.example.partymaker.databinding.FragmentCocktailSearchBinding
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.CocktailAlcoholicEnum
 import com.example.partymaker.presentation.ui.common.BaseFragment
-import com.example.partymaker.presentation.ui.meals.search.MealSearchFragmentDirections
-import com.example.partymaker.presentation.ui.meals.search.MealSearchListRecyclerViewAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

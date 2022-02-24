@@ -9,7 +9,7 @@
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_blank.xml" value="0.25416666666666665" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_cocktail_details.xml" value="0.25416666666666665" />
-        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_cocktail_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_cocktail_list.xml" value="0.152" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_cocktail_search.xml" value="0.25416666666666665" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_cocktails_list.xml" value="0.17291666666666666" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_dish_list.xml" value="0.25416666666666665" />
@@ -26,10 +26,12 @@
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_party_dialog.xml" value="0.4" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_party_list.xml" value="0.16" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_category.xml" value="0.2" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_cocktail_list.xml" value="0.25416666666666665" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_cocktail_search.xml" value="0.264" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_ingredient.xml" value="0.6" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_ingredient_detail.xml" value="0.25416666666666665" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_meal.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_meal_list.xml" value="0.25416666666666665" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_meal_search.xml" value="0.264" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_party.xml" value="0.536" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/layout_cocktail_details_content.xml" value="0.1" />

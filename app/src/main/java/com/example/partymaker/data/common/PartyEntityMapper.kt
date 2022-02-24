@@ -9,15 +9,19 @@ import javax.inject.Singleton
 @Singleton
 class PartyEntityMapper
 @Inject constructor(): EntityMapper<PartyDomain, PartyEntity> {
-    override fun mapFromDomainModel(domainModel: PartyDomain): PartyEntity =
-        PartyEntity(
+    override fun mapFromDomainModel(domainModel: PartyDomain): PartyEntity {
+        return PartyEntity(
             partyId = domainModel.id,
             name = domainModel.name
         )
+    }
 
-    override fun mapToDomainModel(externalModel: PartyEntity): PartyDomain =
-        PartyDomain(
+    override fun mapToDomainModel(externalModel: PartyEntity): PartyDomain {
+        return PartyDomain(
             id = externalModel.partyId,
-            name = externalModel.name
+            name = externalModel.name,
+            cocktails = listOf(),
+            meals = listOf()
         )
+    }
 }

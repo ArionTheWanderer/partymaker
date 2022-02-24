@@ -10,6 +10,8 @@ import com.example.partymaker.presentation.ui.parties.list.PartyListViewModel
 import com.example.partymaker.presentation.ui.cocktails.search.CocktailSearchViewModel
 import com.example.partymaker.presentation.ui.meals.details.MealDetailsViewModel
 import com.example.partymaker.presentation.ui.meals.search.MealSearchViewModel
+import com.example.partymaker.presentation.ui.parties.details.pager.cocktails.CocktailListViewModel
+import com.example.partymaker.presentation.ui.parties.details.pager.meals.MealListViewModel
 import com.example.partymaker.presentation.viewmodels.PartyViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -60,5 +62,15 @@ abstract class ViewModelsModule {
     @IntoMap
     @ViewModelKey(CocktailDetailsViewModel::class)
     abstract fun bindCocktailDetailsViewModel(cocktailDetailsViewModel: CocktailDetailsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MealListViewModel::class)
+    abstract fun bindMealListViewModel(mealListViewModel: MealListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CocktailListViewModel::class)
+    abstract fun bindCocktailListViewModel(cocktailListViewModel: CocktailListViewModel): ViewModel
 
 }
