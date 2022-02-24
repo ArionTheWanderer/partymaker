@@ -13,7 +13,7 @@ data class Cocktail(
     @SerializedName("strDrink")
     val name: String,
     @SerializedName("strVideo")
-    val video: String,
+    val video: String?,
     @SerializedName("strCategory")
     val category: String,
     @SerializedName("strAlcoholic")

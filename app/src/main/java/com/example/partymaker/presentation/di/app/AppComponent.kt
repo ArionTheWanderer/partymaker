@@ -12,6 +12,7 @@ import javax.inject.Singleton
         DbModule::class,
         PartyModule::class,
         MealModule::class,
+        CocktailModule::class,
         NetworkModule::class
     ]
 )

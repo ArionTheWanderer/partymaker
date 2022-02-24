@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.partymaker.domain.common.DataState
+import com.example.partymaker.domain.entities.MealCategoryEnum
 import com.example.partymaker.domain.entities.MealDomain
-import com.example.partymaker.domain.entities.PartyDomain
 import com.example.partymaker.domain.interactors.IMealInteractor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,13 +21,23 @@ class MealSearchViewModel
     val mealList: StateFlow<DataState<List<MealDomain>>>
         get() = _mealList
 
+    init {
+        viewModelScope.launch {
+            mealInteractor.listenLastFetchedMealList().collect {
+                Log.d(TAG, "fetched: $it")
+                _mealList.value = it
+            }
+        }
+    }
+
     fun getMealByName(name: String) = viewModelScope.launch {
         _mealList.value = DataState.Loading
-        val response = mealInteractor.getMealByName(name)
-        if (response is DataState.Data && response.data.isNotEmpty()) {
-            Log.d(TAG, "getMealByName: ${response.data[0].name}")
-        }
-        _mealList.value = response
+        mealInteractor.getMealByName(name)
+    }
+
+    fun filterResultsByCategory(category: MealCategoryEnum) = viewModelScope.launch{
+        _mealList.value = DataState.Loading
+        mealInteractor.filterResultsByCategory(category)
     }
 
     fun resetErrorMessage() {

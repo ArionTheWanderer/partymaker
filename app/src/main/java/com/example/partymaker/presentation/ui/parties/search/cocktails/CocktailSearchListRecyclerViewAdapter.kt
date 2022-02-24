@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui.parties.search.meals
+package com.example.partymaker.presentation.ui.parties.search.cocktails
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -6,18 +6,18 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.partymaker.databinding.ItemMealSearchBinding
-import com.example.partymaker.domain.entities.MealDomain
+import com.example.partymaker.databinding.ItemCocktailSearchBinding
+import com.example.partymaker.domain.entities.CocktailDomain
 
-class MealSearchListRecyclerViewAdapter(
-    private val values: MutableList<MealDomain>
+class CocktailSearchListRecyclerViewAdapter(
+    private val values: MutableList<CocktailDomain>
 //    private val mListener: OnItemClickListener
-) : RecyclerView.Adapter<MealSearchListRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<CocktailSearchListRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         return ViewHolder(
-            ItemMealSearchBinding.inflate(
+            ItemCocktailSearchBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -29,7 +29,7 @@ class MealSearchListRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.title.text = item.name
-        holder.category.text = item.category.name
+        holder.alcoholic.text = item.alcoholic.name
 //        holder.root.setOnClickListener {
 //            mListener.onItemClick(itemId = item.id, partyName = item.name)
 //        }
@@ -37,9 +37,9 @@ class MealSearchListRecyclerViewAdapter(
 
     override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(binding: ItemMealSearchBinding) : RecyclerView.ViewHolder(binding.root) {
-        val title: TextView = binding.tvMealSearchListItemTitle
-        val category: TextView = binding.tvMealSearchListItemCategory
+    inner class ViewHolder(binding: ItemCocktailSearchBinding) : RecyclerView.ViewHolder(binding.root) {
+        val title: TextView = binding.tvCocktailSearchListItemTitle
+        val alcoholic: TextView = binding.tvCocktailSearchListItemAlcoholic
         val root = binding.root
 
         override fun toString(): String {
@@ -48,12 +48,12 @@ class MealSearchListRecyclerViewAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(mealList: List<MealDomain>) {
-        Log.d(TAG, "incoming list size: ${mealList.size}")
+    fun setData(cocktailList: List<CocktailDomain>) {
+        Log.d(TAG, "incoming list size: ${cocktailList.size}")
         Log.d(TAG, "setData before clearing: ${values.size}")
         values.clear()
         Log.d(TAG, "setData after clearing: ${values.size}")
-        values.addAll(mealList)
+        values.addAll(cocktailList)
         Log.d(TAG, "setData after setting new data: ${values.size}")
         notifyDataSetChanged()
         Log.d(TAG, "setData after notifying: ${values.size}")
@@ -64,4 +64,4 @@ class MealSearchListRecyclerViewAdapter(
     }
 }
 
-private const val TAG = "MealSearchListRecyclerV"
+private const val TAG = "CocktailSearchListRecyclerV"

@@ -15,4 +15,21 @@
     <string name="menu_search">Search</string>
     <string name="meal_search_hint_search_view">Enter a meal name</string>
     <string name="cocktail_search_hint_search_view">Enter a cocktail name</string>
+    <string name="chip_beef">Beef</string>
+    <string name="chip_breakfast">Breakfast</string>
+    <string name="chip_chicken">Chicken</string>
+    <string name="chip_dessert">Dessert</string>
+    <string name="chip_goat">Goat</string>
+    <string name="chip_lamb">Lamb</string>
+    <string name="chip_miscellaneous">Miscellaneous</string>
+    <string name="chip_pasta">Pasta</string>
+    <string name="chip_pork">Pork</string>
+    <string name="chip_seafood">Seafood</string>
+    <string name="chip_side">Side</string>
+    <string name="chip_starter">Starter</string>
+    <string name="chip_vegan">Vegan</string>
+    <string name="chip_vegetarian">Vegetarian</string>
+    <string name="chip_alcoholic">Alcoholic</string>
+    <string name="chip_non_alcoholic">Non alcoholic</string>
+    <string name="chip_optional_alcohol">Optional alcohol</string>
 </resources>

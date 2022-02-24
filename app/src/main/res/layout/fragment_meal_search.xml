@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chips_group_meal_search"
@@ -44,53 +44,102 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_1"
+                    android:id="@+id/chip_beef"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="filter" />
+                    android:text="@string/chip_beef" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_2"
+                    android:id="@+id/chip_breakfast"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="filter" />
+                    android:text="@string/chip_breakfast" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_3"
+                    android:id="@+id/chip_chicken"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="filter" />
+                    android:text="@string/chip_chicken" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_4"
+                    android:id="@+id/chip_dessert"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="filter" />
+                    android:text="@string/chip_dessert" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_5"
+                    android:id="@+id/chip_goat"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="filter" />
+                    android:text="@string/chip_goat" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_6"
+                    android:id="@+id/chip_lamb"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="filter" />
+                    android:text="@string/chip_lamb" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_7"
+                    android:id="@+id/chip_miscellaneous"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="filter" />
+                    android:text="@string/chip_miscellaneous" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_pasta"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_pasta" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_pork"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_pork" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_seafood"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_seafood" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_side"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_side" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_starter"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_starter" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_vegan"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_vegan" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_vegetarian"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_vegetarian" />
 
             </com.google.android.material.chip.ChipGroup>
 

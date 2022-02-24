@@ -1,6 +1,5 @@
 package com.example.partymaker.presentation.di.app
 
-
 import com.example.partymaker.data.datasources.IMealRemoteDataSource
 import com.example.partymaker.data.datasources.MealRemoteDataSource
 import com.example.partymaker.data.repositories.MealRepository

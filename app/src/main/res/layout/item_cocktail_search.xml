@@ -16,7 +16,7 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/tv_meal_search_list_item_title"
+            android:id="@+id/tv_cocktail_search_list_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceListItem"
@@ -24,20 +24,20 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Meal" />
+            tools:text="Cocktail" />
 
         <TextView
-            android:id="@+id/tv_meal_search_list_item_category"
+            android:id="@+id/tv_cocktail_search_list_item_alcoholic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItemSecondary"
             android:layout_marginTop="5dp"
+            android:textAppearance="?attr/textAppearanceListItemSecondary"
             android:textSize="15sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_meal_search_list_item_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_meal_search_list_item_title"
-            tools:text="Category" />
+            app:layout_constraintStart_toStartOf="@id/tv_cocktail_search_list_item_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_cocktail_search_list_item_title"
+            tools:text="Alcoholic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

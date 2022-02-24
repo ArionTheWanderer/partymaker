@@ -15,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.partymaker.R
 import com.example.partymaker.databinding.FragmentMealSearchBinding
 import com.example.partymaker.domain.common.DataState
+import com.example.partymaker.domain.entities.MealCategoryEnum
 import com.example.partymaker.presentation.ui.common.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
@@ -25,14 +26,17 @@ class MealSearchFragment : BaseFragment(), SearchView.OnQueryTextListener {
 
     private var binding: FragmentMealSearchBinding? = null
 
+    private var isChipCheckClearedByParent: Boolean = false
+
     private val adapter = MealSearchListRecyclerViewAdapter(mutableListOf())
 
     private var searchJob: Job? = null
+    private var filterJob: Job? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: MealSearchViewModel by viewModels{
+    private val viewModel: MealSearchViewModel by viewModels {
         viewModelFactory
     }
 
@@ -61,22 +65,90 @@ class MealSearchFragment : BaseFragment(), SearchView.OnQueryTextListener {
 
         binding?.layoutMealListIncluded?.rvLayoutRecycler?.adapter = adapter
 
+        binding?.chipsGroupMealSearch?.setOnCheckedChangeListener { _, checkedId ->
+            filterJob = viewLifecycleOwner.lifecycleScope.launch {
+                whenStarted {
+                    if (isChipCheckClearedByParent) return@whenStarted
+                    var categoryFilter: MealCategoryEnum = MealCategoryEnum.All
+                    when (checkedId) {
+                        binding?.chipBeef?.id -> {
+                            categoryFilter = MealCategoryEnum.Beef
+                        }
+                        binding?.chipBreakfast?.id -> {
+                            categoryFilter = MealCategoryEnum.Breakfast
+                        }
+                        binding?.chipChicken?.id -> {
+                            categoryFilter = MealCategoryEnum.Chicken
+                        }
+                        binding?.chipDessert?.id -> {
+                            categoryFilter = MealCategoryEnum.Dessert
+                        }
+                        binding?.chipGoat?.id -> {
+                            categoryFilter = MealCategoryEnum.Goat
+                        }
+                        binding?.chipLamb?.id -> {
+                            categoryFilter = MealCategoryEnum.Lamb
+                        }
+                        binding?.chipMiscellaneous?.id -> {
+                            categoryFilter = MealCategoryEnum.Miscellaneous
+                        }
+                        binding?.chipPasta?.id -> {
+                            categoryFilter = MealCategoryEnum.Pasta
+                        }
+                        binding?.chipPork?.id -> {
+                            categoryFilter = MealCategoryEnum.Pork
+                        }
+                        binding?.chipSeafood?.id -> {
+                            categoryFilter = MealCategoryEnum.Seafood
+                        }
+                        binding?.chipSide?.id -> {
+                            categoryFilter = MealCategoryEnum.Side
+                        }
+                        binding?.chipStarter?.id -> {
+                            categoryFilter = MealCategoryEnum.Starter
+                        }
+                        binding?.chipVegan?.id -> {
+                            categoryFilter = MealCategoryEnum.Vegan
+                        }
+                        binding?.chipVegetarian?.id -> {
+                            categoryFilter = MealCategoryEnum.Vegetarian
+                        }
+                    }
+                    viewModel.filterResultsByCategory(categoryFilter)
+                }
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.mealList.collect { mealList ->
                     when (mealList) {
-                        is DataState.Init -> {}
-                        is DataState.Loading -> showProgress(true)
+                        is DataState.Init -> {
+                            showFilters(false)
+                            showProgress(false)
+                            chipGroupClearCheck(false)
+                            adapter.setData(mutableListOf())
+                        }
+                        is DataState.Loading -> {
+                            showProgress(true)
+                            showFilters(false)
+                        }
                         is DataState.Data -> {
                             if (mealList.data.isNotEmpty())
                                 Log.d(TAG, "onViewCreated: ${mealList.data[0].name}")
                             showProgress(false)
+                            showFilters(true)
+                            chipGroupClearCheck(false)
                             adapter.setData(mealList.data)
                         }
                         is DataState.Error -> {
                             showProgress(false)
+                            showFilters(false)
+                            chipGroupClearCheck(false)
+                            adapter.setData(mutableListOf())
                             binding?.root?.let {
-                                Snackbar.make(it, "Error ${mealList.error}", Snackbar.LENGTH_SHORT).show()
+                                Snackbar.make(it, mealList.error, Snackbar.LENGTH_SHORT)
+                                    .show()
                             }
                             viewModel.resetErrorMessage()
                         }
@@ -91,20 +163,10 @@ class MealSearchFragment : BaseFragment(), SearchView.OnQueryTextListener {
         super.onDestroyView()
     }
 
-    private fun showProgress(isVisible: Boolean) {
-        if (isVisible) {
-            binding?.hsvMealSearchChips?.visibility = View.INVISIBLE
-            binding?.layoutMealListIncluded?.rvLayoutRecycler?.visibility = View.INVISIBLE
-            binding?.layoutMealListIncluded?.pbLayoutRecycler?.visibility = View.VISIBLE
-        } else {
-            binding?.hsvMealSearchChips?.visibility = View.VISIBLE
-            binding?.layoutMealListIncluded?.rvLayoutRecycler?.visibility = View.VISIBLE
-            binding?.layoutMealListIncluded?.pbLayoutRecycler?.visibility = View.INVISIBLE
-        }
-    }
-
     override fun onQueryTextSubmit(query: String?): Boolean {
         searchJob?.cancel()
+        filterJob?.cancel()
+        chipGroupClearCheck(true)
         if (query != null && query != "") {
             viewLifecycleOwner.lifecycleScope.launch {
                 whenStarted {
@@ -116,6 +178,32 @@ class MealSearchFragment : BaseFragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(query: String?): Boolean = true
+
+    private fun showProgress(isVisible: Boolean) {
+        if (isVisible) {
+            binding?.layoutMealListIncluded?.rvLayoutRecycler?.visibility = View.INVISIBLE
+            binding?.layoutMealListIncluded?.pbLayoutRecycler?.visibility = View.VISIBLE
+        } else {
+            binding?.layoutMealListIncluded?.rvLayoutRecycler?.visibility = View.VISIBLE
+            binding?.layoutMealListIncluded?.pbLayoutRecycler?.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun showFilters(isVisible: Boolean) {
+        if (isVisible) {
+            binding?.hsvMealSearchChips?.visibility = View.VISIBLE
+        } else {
+            binding?.hsvMealSearchChips?.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun chipGroupClearCheck(boolean: Boolean) {
+        if (boolean) {
+            isChipCheckClearedByParent = true
+            binding?.chipsGroupMealSearch?.clearCheck()
+        } else
+            isChipCheckClearedByParent = false
+    }
 }
 
 private const val TAG = "MealSearchFragment"
