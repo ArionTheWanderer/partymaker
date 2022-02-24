@@ -2,6 +2,7 @@ package com.example.partymaker.data.repositories
 
 import com.example.partymaker.data.common.MealResponseMapper
 import com.example.partymaker.data.datasources.IMealRemoteDataSource
+import com.example.partymaker.data.network.response.MealResponse
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.MealCategoryEnum
 import com.example.partymaker.domain.entities.MealDomain
@@ -11,6 +12,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,7 +21,7 @@ class MealRepository
 @Inject constructor(
     private val mealRemoteDataSource: IMealRemoteDataSource,
     private val mealResponseMapper: MealResponseMapper
-): IMealRepository {
+) : IMealRepository {
 
     private var lastFetchedMealListDomain: DataState<List<MealDomain>> = DataState.Init
 
@@ -32,8 +34,16 @@ class MealRepository
     override fun listenLastFetchedMealList(): Flow<DataState<List<MealDomain>>> =
         lastFetchedMealListDomainFlow
 
-    override suspend fun getMealByName(name: String) = withContext(Dispatchers.IO){
-        val mealByNameResponse = mealRemoteDataSource.getMealByName(name)
+    override suspend fun getMealByName(name: String) = withContext(Dispatchers.IO) {
+
+        val mealByNameResponse: Response<MealResponse>
+        try {
+            mealByNameResponse = mealRemoteDataSource.getMealByName(name)
+        } catch (e: Exception) {
+            lastFetchedMealListDomain = DataState.Error("Network error")
+            lastFetchedMealListDomainFlow.emit(DataState.Error("Network error"))
+            return@withContext
+        }
         if (mealByNameResponse.isSuccessful) {
             mealByNameResponse.body().let { mealResponse ->
                 val mealListDomain: MutableList<MealDomain> = mutableListOf()
@@ -56,20 +66,21 @@ class MealRepository
         return@withContext
     }
 
-    override suspend fun filterResultsByCategory(category: MealCategoryEnum) = withContext(Dispatchers.IO){
-        if (lastFetchedMealListDomain is DataState.Data) {
-            when (category) {
-                MealCategoryEnum.All -> {
-                    lastFetchedMealListDomainFlow.emit(lastFetchedMealListDomain)
-                }
-                else -> {
-                    val filteredData =
-                        (lastFetchedMealListDomain as DataState.Data<List<MealDomain>>)
-                        .data
-                        .filter { it.category == category }
-                    lastFetchedMealListDomainFlow.emit(DataState.Data(filteredData))
+    override suspend fun filterResultsByCategory(category: MealCategoryEnum) =
+        withContext(Dispatchers.IO) {
+            if (lastFetchedMealListDomain is DataState.Data) {
+                when (category) {
+                    MealCategoryEnum.All -> {
+                        lastFetchedMealListDomainFlow.emit(lastFetchedMealListDomain)
+                    }
+                    else -> {
+                        val filteredData =
+                            (lastFetchedMealListDomain as DataState.Data<List<MealDomain>>)
+                                .data
+                                .filter { it.category == category }
+                        lastFetchedMealListDomainFlow.emit(DataState.Data(filteredData))
+                    }
                 }
             }
         }
-    }
 }

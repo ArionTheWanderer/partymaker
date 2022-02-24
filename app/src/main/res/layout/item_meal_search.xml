@@ -15,23 +15,34 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
+        <ImageView
+            android:id="@+id/iv_item_meal_search"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
         <TextView
             android:id="@+id/tv_meal_search_list_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tv_meal_search_list_item_category"
+            app:layout_constraintStart_toEndOf="@id/iv_item_meal_search"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Meal" />
 
         <TextView
-            android:id="@+id/tv_meal_search_list_item_category"
+            android:id="@id/tv_meal_search_list_item_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItemSecondary"
             android:layout_marginTop="5dp"
+            android:textAppearance="?attr/textAppearanceListItemSecondary"
             android:textSize="15sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"

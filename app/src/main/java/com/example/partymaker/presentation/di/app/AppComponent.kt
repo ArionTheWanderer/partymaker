@@ -13,7 +13,8 @@ import javax.inject.Singleton
         PartyModule::class,
         MealModule::class,
         CocktailModule::class,
-        NetworkModule::class
+        NetworkModule::class,
+        GlideModule::class
     ]
 )
 interface AppComponent  {

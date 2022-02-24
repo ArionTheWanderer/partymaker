@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.RequestManager
 import com.example.partymaker.R
 import com.example.partymaker.databinding.FragmentCocktailSearchBinding
 import com.example.partymaker.domain.common.DataState
@@ -28,10 +29,13 @@ class CocktailSearchFragment: BaseFragment(), SearchView.OnQueryTextListener {
 
     private var isChipCheckClearedByParent: Boolean = false
 
-    private val adapter = CocktailSearchListRecyclerViewAdapter(mutableListOf())
+    private lateinit var adapter: CocktailSearchListRecyclerViewAdapter
 
     private var searchJob: Job? = null
     private var filterJob: Job? = null
+
+    @Inject
+    lateinit var glide: RequestManager
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -43,6 +47,7 @@ class CocktailSearchFragment: BaseFragment(), SearchView.OnQueryTextListener {
     override fun onAttach(context: Context) {
         injector.inject(this)
         super.onAttach(context)
+        adapter = CocktailSearchListRecyclerViewAdapter(mutableListOf(), glide)
     }
 
     override fun onCreateView(
@@ -75,10 +80,10 @@ class CocktailSearchFragment: BaseFragment(), SearchView.OnQueryTextListener {
                             alcoholicFilter = CocktailAlcoholicEnum.Alcoholic
                         }
                         binding?.chipNonAlcoholic?.id -> {
-                            alcoholicFilter = CocktailAlcoholicEnum.Nonalcoholic
+                            alcoholicFilter = CocktailAlcoholicEnum.NonAlcoholic
                         }
                         binding?.chipOptionalAlcohol?.id -> {
-                            alcoholicFilter = CocktailAlcoholicEnum.Optionalalcohol
+                            alcoholicFilter = CocktailAlcoholicEnum.OptionalAlcohol
                         }
                     }
                     viewModel.filterResultsByAlcoholic(alcoholicFilter)

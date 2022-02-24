@@ -2,6 +2,7 @@ package com.example.partymaker.data.repositories
 
 import com.example.partymaker.data.common.CocktailResponseMapper
 import com.example.partymaker.data.datasources.ICocktailRemoteDataSource
+import com.example.partymaker.data.network.response.CocktailResponse
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.CocktailAlcoholicEnum
 import com.example.partymaker.domain.entities.CocktailDomain
@@ -11,6 +12,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,21 +21,29 @@ class CocktailRepository
 @Inject constructor(
     private val cocktailRemoteDataSource: ICocktailRemoteDataSource,
     private val cocktailResponseMapper: CocktailResponseMapper
-): ICocktailRepository {
+) : ICocktailRepository {
 
     private var lastFetchedCocktailListDomain: DataState<List<CocktailDomain>> = DataState.Init
 
-    private val lastFetchedCocktailListDomainFlow = MutableSharedFlow<DataState<List<CocktailDomain>>>(
-        replay = 0, // do not send events to new subscribers which have been emitted before subscription
-        extraBufferCapacity = 1, // min. buffer capacity for using DROP_OLDEST overflow policy
-        onBufferOverflow = BufferOverflow.DROP_OLDEST // newest item will replace oldest item in case of buffer overflow
-    )
+    private val lastFetchedCocktailListDomainFlow =
+        MutableSharedFlow<DataState<List<CocktailDomain>>>(
+            replay = 0, // do not send events to new subscribers which have been emitted before subscription
+            extraBufferCapacity = 1, // min. buffer capacity for using DROP_OLDEST overflow policy
+            onBufferOverflow = BufferOverflow.DROP_OLDEST // newest item will replace oldest item in case of buffer overflow
+        )
 
     override fun listenLastFetchedCocktailList(): Flow<DataState<List<CocktailDomain>>> =
         lastFetchedCocktailListDomainFlow
 
-    override suspend fun getCocktailByName(name: String) = withContext(Dispatchers.IO){
-        val cocktailByNameResponse = cocktailRemoteDataSource.getCocktailByName(name)
+    override suspend fun getCocktailByName(name: String) = withContext(Dispatchers.IO) {
+        val cocktailByNameResponse: Response<CocktailResponse>
+        try {
+            cocktailByNameResponse = cocktailRemoteDataSource.getCocktailByName(name)
+        } catch (e: Exception) {
+            lastFetchedCocktailListDomain = DataState.Error("Network error")
+            lastFetchedCocktailListDomainFlow.emit(DataState.Error("Network error"))
+            return@withContext
+        }
         if (cocktailByNameResponse.isSuccessful) {
             cocktailByNameResponse.body().let { cocktailResponse ->
                 val cocktailListDomain: MutableList<CocktailDomain> = mutableListOf()
@@ -51,25 +61,27 @@ class CocktailRepository
                 return@withContext
             }
         }
-        lastFetchedCocktailListDomain = DataState.Error("Network error. Code: ${cocktailByNameResponse.code()}")
+        lastFetchedCocktailListDomain =
+            DataState.Error("Network error. Code: ${cocktailByNameResponse.code()}")
         lastFetchedCocktailListDomainFlow.emit(DataState.Error("Network error. Code: ${cocktailByNameResponse.code()}"))
         return@withContext
     }
 
-    override suspend fun filterResultsByAlcoholic(alcoholic: CocktailAlcoholicEnum) = withContext(Dispatchers.IO){
-        if (lastFetchedCocktailListDomain is DataState.Data) {
-            when (alcoholic) {
-                CocktailAlcoholicEnum.All -> {
-                    lastFetchedCocktailListDomainFlow.emit(lastFetchedCocktailListDomain)
-                }
-                else -> {
-                    val filteredData =
-                        (lastFetchedCocktailListDomain as DataState.Data<List<CocktailDomain>>)
-                        .data
-                        .filter { it.alcoholic == alcoholic }
-                    lastFetchedCocktailListDomainFlow.emit(DataState.Data(filteredData))
+    override suspend fun filterResultsByAlcoholic(alcoholic: CocktailAlcoholicEnum) =
+        withContext(Dispatchers.IO) {
+            if (lastFetchedCocktailListDomain is DataState.Data) {
+                when (alcoholic) {
+                    CocktailAlcoholicEnum.All -> {
+                        lastFetchedCocktailListDomainFlow.emit(lastFetchedCocktailListDomain)
+                    }
+                    else -> {
+                        val filteredData =
+                            (lastFetchedCocktailListDomain as DataState.Data<List<CocktailDomain>>)
+                                .data
+                                .filter { it.alcoholic == alcoholic }
+                        lastFetchedCocktailListDomainFlow.emit(DataState.Data(filteredData))
+                    }
                 }
             }
         }
-    }
 }

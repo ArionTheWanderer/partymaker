@@ -5,12 +5,16 @@ import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.partymaker.databinding.ItemMealSearchBinding
 import com.example.partymaker.domain.entities.MealDomain
 
 class MealSearchListRecyclerViewAdapter(
-    private val values: MutableList<MealDomain>
+    private val values: MutableList<MealDomain>,
+    private val glide: RequestManager
 //    private val mListener: OnItemClickListener
 ) : RecyclerView.Adapter<MealSearchListRecyclerViewAdapter.ViewHolder>() {
 
@@ -30,6 +34,10 @@ class MealSearchListRecyclerViewAdapter(
         val item = values[position]
         holder.title.text = item.name
         holder.category.text = item.category.name
+        glide
+            .load(item.thumbnailLink)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .into(holder.image)
 //        holder.root.setOnClickListener {
 //            mListener.onItemClick(itemId = item.id, partyName = item.name)
 //        }
@@ -40,6 +48,7 @@ class MealSearchListRecyclerViewAdapter(
     inner class ViewHolder(binding: ItemMealSearchBinding) : RecyclerView.ViewHolder(binding.root) {
         val title: TextView = binding.tvMealSearchListItemTitle
         val category: TextView = binding.tvMealSearchListItemCategory
+        val image: ImageView = binding.ivItemMealSearch
         val root = binding.root
 
         override fun toString(): String {

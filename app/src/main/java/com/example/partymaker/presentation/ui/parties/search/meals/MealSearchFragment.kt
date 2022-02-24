@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.RequestManager
 import com.example.partymaker.R
 import com.example.partymaker.databinding.FragmentMealSearchBinding
 import com.example.partymaker.domain.common.DataState
@@ -28,10 +29,13 @@ class MealSearchFragment : BaseFragment(), SearchView.OnQueryTextListener {
 
     private var isChipCheckClearedByParent: Boolean = false
 
-    private val adapter = MealSearchListRecyclerViewAdapter(mutableListOf())
+    private lateinit var adapter: MealSearchListRecyclerViewAdapter
 
     private var searchJob: Job? = null
     private var filterJob: Job? = null
+
+    @Inject
+    lateinit var glide: RequestManager
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -43,6 +47,7 @@ class MealSearchFragment : BaseFragment(), SearchView.OnQueryTextListener {
     override fun onAttach(context: Context) {
         injector.inject(this)
         super.onAttach(context)
+        adapter = MealSearchListRecyclerViewAdapter(mutableListOf(), glide)
     }
 
     override fun onCreateView(

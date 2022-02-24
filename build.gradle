@@ -23,4 +23,5 @@ ext {
     coroutinesVersion = '1.6.0'
     daggerVersion = '2.40.5'
     retrofitVersion = '2.9.0'
+    glideVersion = '4.13.0'
 }

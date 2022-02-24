@@ -98,7 +98,7 @@ class CocktailResponseMapper
             name = externalModel.name,
             videoLink = externalModel.video,
             category = externalModel.category,
-            alcoholic = CocktailAlcoholicEnum.valueOf(externalModel.alcoholic.filterNot { it.isWhitespace() }),
+            alcoholic = CocktailAlcoholicEnum.getEnumByString(externalModel.alcoholic),
             glass = externalModel.glass,
             instructions = externalModel.instructions,
             thumbnailLink = externalModel.thumbnailLink,

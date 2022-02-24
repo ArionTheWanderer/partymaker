@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/drawable/btn_add.xml" value="0.175" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/drawable/ic_error.xml" value="0.1565" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_blank.xml" value="0.25416666666666665" />
@@ -22,9 +23,9 @@
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_party_dialog.xml" value="0.4" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_party_list.xml" value="0.16" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_category.xml" value="0.2" />
-        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_cocktail_search.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_cocktail_search.xml" value="0.264" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_meal.xml" value="0.25416666666666665" />
-        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_meal_search.xml" value="0.5818476499189628" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_meal_search.xml" value="0.264" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/item_party.xml" value="0.536" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/layout_recycler.xml" value="0.17291666666666666" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/layout_recycler_add.xml" value="0.1" />
