@@ -72,13 +72,11 @@ class PartyListFragment : BaseFragment() {
                 viewModel.partyList.collect { partyList ->
                     when (partyList) {
                         is DataState.Init -> {}
-                        is DataState.Loading -> showProgress(true)
+                        is DataState.Loading -> {}
                         is DataState.Data -> {
-                            showProgress(false)
                             adapter.setData(partyList.data)
                         }
                         is DataState.Error -> {
-                            showProgress(false)
                             binding?.root?.let {
                                 Snackbar.make(it, "Error ${partyList.error}", Snackbar.LENGTH_SHORT).show()
                             }
@@ -93,18 +91,6 @@ class PartyListFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-    }
-
-    private fun showProgress(isVisible: Boolean) {
-        if (isVisible) {
-            binding?.fabPartyList?.visibility = View.INVISIBLE
-            binding?.layoutPartyListIncluded?.rvLayoutRecycler?.visibility = View.INVISIBLE
-            binding?.layoutPartyListIncluded?.pbLayoutRecycler?.visibility = View.VISIBLE
-        } else {
-            binding?.fabPartyList?.visibility = View.VISIBLE
-            binding?.layoutPartyListIncluded?.rvLayoutRecycler?.visibility = View.VISIBLE
-            binding?.layoutPartyListIncluded?.pbLayoutRecycler?.visibility = View.INVISIBLE
-        }
     }
 
 }

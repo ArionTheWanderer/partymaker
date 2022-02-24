@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import com.example.partymaker.databinding.ItemPartyBinding
 import com.example.partymaker.domain.entities.PartyDomain
+import com.example.partymaker.presentation.ui.parties.PartyDiffUtilCallback
 
 class PartyListRecyclerViewAdapter(
     private val values: MutableList<PartyDomain>,
@@ -49,11 +51,12 @@ class PartyListRecyclerViewAdapter(
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(partyList: List<PartyDomain>) {
+        val diffUtilCallback = PartyDiffUtilCallback(values, partyList)
+        val diffUtil = DiffUtil.calculateDiff(diffUtilCallback)
         values.clear()
         values.addAll(partyList)
-        notifyDataSetChanged()
+        diffUtil.dispatchUpdatesTo(this)
     }
 
     interface OnItemClickListener {

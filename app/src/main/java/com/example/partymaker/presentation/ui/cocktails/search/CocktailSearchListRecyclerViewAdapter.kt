@@ -1,17 +1,17 @@
 package com.example.partymaker.presentation.ui.cocktails.search
 
-import android.annotation.SuppressLint
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.partymaker.databinding.ItemCocktailSearchBinding
 import com.example.partymaker.domain.entities.CocktailAlcoholicEnum
 import com.example.partymaker.domain.entities.CocktailDomain
+import com.example.partymaker.presentation.ui.cocktails.CocktailDiffUtilCallback
 
 class CocktailSearchListRecyclerViewAdapter(
     private val values: MutableList<CocktailDomain>,
@@ -58,16 +58,12 @@ class CocktailSearchListRecyclerViewAdapter(
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(cocktailList: List<CocktailDomain>) {
-        Log.d(TAG, "incoming list size: ${cocktailList.size}")
-        Log.d(TAG, "setData before clearing: ${values.size}")
+        val diffUtilCallback = CocktailDiffUtilCallback(values, cocktailList)
+        val diffUtil = DiffUtil.calculateDiff(diffUtilCallback)
         values.clear()
-        Log.d(TAG, "setData after clearing: ${values.size}")
         values.addAll(cocktailList)
-        Log.d(TAG, "setData after setting new data: ${values.size}")
-        notifyDataSetChanged()
-        Log.d(TAG, "setData after notifying: ${values.size}")
+        diffUtil.dispatchUpdatesTo(this)
     }
 
     interface OnItemClickListener {

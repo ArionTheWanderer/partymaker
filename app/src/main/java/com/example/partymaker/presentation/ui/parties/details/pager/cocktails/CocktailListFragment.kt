@@ -91,13 +91,11 @@ class CocktailListFragment : BaseFragment() {
                 viewModel.cocktailList.collect { cocktailList ->
                     when (cocktailList) {
                         is DataState.Init -> {}
-                        is DataState.Loading -> showProgress(true)
+                        is DataState.Loading -> {}
                         is DataState.Data -> {
-                            showProgress(false)
                             adapter.setData(cocktailList.data)
                         }
                         is DataState.Error -> {
-                            showProgress(false)
                             binding?.root?.let {
                                 Snackbar.make(it, cocktailList.error, Snackbar.LENGTH_SHORT).show()
                             }
@@ -117,18 +115,6 @@ class CocktailListFragment : BaseFragment() {
     override fun onDestroy() {
         listener = null
         super.onDestroy()
-    }
-
-    private fun showProgress(isVisible: Boolean) {
-        if (isVisible) {
-            binding?.fabCocktailsList?.visibility = View.INVISIBLE
-            binding?.layoutCocktailsIncluded?.rvLayoutRecycler?.visibility = View.INVISIBLE
-            binding?.layoutCocktailsIncluded?.pbLayoutRecycler?.visibility = View.VISIBLE
-        } else {
-            binding?.fabCocktailsList?.visibility = View.VISIBLE
-            binding?.layoutCocktailsIncluded?.rvLayoutRecycler?.visibility = View.VISIBLE
-            binding?.layoutCocktailsIncluded?.pbLayoutRecycler?.visibility = View.INVISIBLE
-        }
     }
 
     companion object {

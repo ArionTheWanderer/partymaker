@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.partymaker.databinding.ItemMealSearchBinding
 import com.example.partymaker.domain.entities.MealDomain
+import com.example.partymaker.presentation.ui.meals.MealDiffUtilCallback
 
 class MealSearchListRecyclerViewAdapter(
     private val values: MutableList<MealDomain>,
@@ -56,16 +58,12 @@ class MealSearchListRecyclerViewAdapter(
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(mealList: List<MealDomain>) {
-        Log.d(TAG, "incoming list size: ${mealList.size}")
-        Log.d(TAG, "setData before clearing: ${values.size}")
+        val diffUtilCallback = MealDiffUtilCallback(values, mealList)
+        val diffUtil = DiffUtil.calculateDiff(diffUtilCallback)
         values.clear()
-        Log.d(TAG, "setData after clearing: ${values.size}")
         values.addAll(mealList)
-        Log.d(TAG, "setData after setting new data: ${values.size}")
-        notifyDataSetChanged()
-        Log.d(TAG, "setData after notifying: ${values.size}")
+        diffUtil.dispatchUpdatesTo(this)
     }
 
     interface OnItemClickListener {

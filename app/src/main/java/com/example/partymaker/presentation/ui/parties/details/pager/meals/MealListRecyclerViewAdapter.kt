@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.RequestManager
 import com.example.partymaker.databinding.ItemMealListBinding
 import com.example.partymaker.domain.entities.MealDomain
+import com.example.partymaker.presentation.ui.meals.MealDiffUtilCallback
 
 class MealListRecyclerViewAdapter(
     private val values: MutableList<MealDomain>,
@@ -57,11 +59,12 @@ class MealListRecyclerViewAdapter(
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(mealList: List<MealDomain>) {
+        val diffUtilCallback = MealDiffUtilCallback(values, mealList)
+        val diffUtil = DiffUtil.calculateDiff(diffUtilCallback)
         values.clear()
         values.addAll(mealList)
-        notifyDataSetChanged()
+        diffUtil.dispatchUpdatesTo(this)
     }
 
     interface OnItemClickListener {

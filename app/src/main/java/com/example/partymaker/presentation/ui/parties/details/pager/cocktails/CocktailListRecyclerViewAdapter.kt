@@ -1,15 +1,16 @@
 package com.example.partymaker.presentation.ui.parties.details.pager.cocktails
 
-import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.RequestManager
 import com.example.partymaker.databinding.ItemCocktailListBinding
 import com.example.partymaker.domain.entities.CocktailAlcoholicEnum
 import com.example.partymaker.domain.entities.CocktailDomain
+import com.example.partymaker.presentation.ui.cocktails.CocktailDiffUtilCallback
 
 class CocktailListRecyclerViewAdapter(
     private val values: MutableList<CocktailDomain>,
@@ -58,12 +59,12 @@ class CocktailListRecyclerViewAdapter(
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(cocktailList: List<CocktailDomain>) {
+        val diffUtilCallback = CocktailDiffUtilCallback(values, cocktailList)
+        val diffUtil = DiffUtil.calculateDiff(diffUtilCallback)
         values.clear()
         values.addAll(cocktailList)
-        notifyDataSetChanged()
-    }
+        diffUtil.dispatchUpdatesTo(this)    }
 
     interface OnItemClickListener {
         fun onItemClick(cocktailId: Long, cocktailName: String)
