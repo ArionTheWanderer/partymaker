@@ -41,15 +41,56 @@
 
                 <TextView
                     android:id="@+id/tv_image_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btns_meal_details"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_meal_details"
                     tools:text="Pirogki" />
+
+                <Button
+                    android:id="@+id/button_meal_details_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/btn_meal_details_add"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_meal_details" />
+
+                <Button
+                    android:id="@+id/button_meal_details_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_meal_details_delete"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/button_meal_details_add" />
+
+                <ProgressBar
+                    android:id="@+id/pb_meal_details_toggle_button"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/button_meal_details_add"
+                    app:layout_constraintStart_toStartOf="@id/button_meal_details_add" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/btns_meal_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="start"
+                    app:constraint_referenced_ids="button_meal_details_add,button_meal_details_delete, pb_meal_details_toggle_button" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

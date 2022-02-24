@@ -29,6 +29,9 @@ interface MealDao {
     @Query("SELECT COUNT(*) AS count FROM party_meal WHERE meal_id = :mealId")
     suspend fun mealRelationsCount(mealId: Long): Long
 
+    @Query("SELECT COUNT(*) AS count FROM party_meal WHERE party_id = :partyId AND meal_id = :mealId")
+    suspend fun partyMealRelationsCount(mealId: Long, partyId: Long): Long
+
     @Query("DELETE FROM meal WHERE meal_id = :id")
     suspend fun delete(id: Long)
 

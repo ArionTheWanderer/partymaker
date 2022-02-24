@@ -47,6 +47,7 @@ class MealEntityMapper
         }
 
         return MealDomain(
+            isInCurrentParty = false,
             mealId = externalModel.meal.mealId,
             name = externalModel.meal.name,
             category = MealCategoryEnum.valueOf(externalModel.meal.category),

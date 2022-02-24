@@ -9,7 +9,7 @@ interface IMealRepository {
     fun listenLastFetchedMealList(): Flow<DataState<List<MealDomain>>>
     suspend fun getMealByName(name: String)
     suspend fun filterResultsByCategory(category: MealCategoryEnum)
-    suspend fun getMealById(id: Long): DataState<MealDomain>
+    suspend fun getMealById(mealId: Long, partyId: Long): DataState<MealDomain>
     suspend fun insertMeal(mealId: Long, partyId: Long): DataState<String>
     suspend fun deleteMeal(mealId: Long, partyId: Long)
 }

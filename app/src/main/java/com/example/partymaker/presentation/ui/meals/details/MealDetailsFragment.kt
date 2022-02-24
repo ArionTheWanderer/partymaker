@@ -8,15 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.partymaker.databinding.FragmentMealDetailsBinding
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.MealDomain
@@ -68,9 +64,38 @@ class MealDetailsFragment : BaseFragment() {
         binding?.layoutMealDetailsIncluded?.rvMealDetailsIngredients?.adapter = adapterIngredients
         binding?.layoutMealDetailsIncluded?.rvMealDetails?.adapter = adapterDetails
 
+        if (savedInstanceState != null) {
+            val isAddButtonVisible = savedInstanceState.getBoolean(IS_ADD_BUTTON_VISIBLE)
+            if (isAddButtonVisible) {
+                binding?.layoutMealDetailsIncluded?.buttonMealDetailsAdd?.visibility = View.VISIBLE
+                binding?.layoutMealDetailsIncluded?.buttonMealDetailsDelete?.visibility = View.INVISIBLE
+            } else {
+                binding?.layoutMealDetailsIncluded?.buttonMealDetailsAdd?.visibility = View.INVISIBLE
+                binding?.layoutMealDetailsIncluded?.buttonMealDetailsDelete?.visibility = View.VISIBLE
+            }
+        }
+
+        binding?.layoutMealDetailsIncluded?.buttonMealDetailsAdd?.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                whenStarted {
+                    Log.d(TAG, "onViewCreated: insertMeal")
+                    viewModel.insertMeal(args.mealId, args.partyId)
+                }
+            }
+        }
+
+        binding?.layoutMealDetailsIncluded?.buttonMealDetailsDelete?.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                whenStarted {
+                    Log.d(TAG, "onViewCreated: insertMeal")
+                    viewModel.deleteMeal(args.mealId, args.partyId)
+                }
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getMealById(args.mealId)
+                viewModel.getMealById(args.mealId, args.partyId)
                 viewModel.meal.collect { meal ->
                     when (meal) {
                         is DataState.Init -> {}
@@ -90,6 +115,69 @@ class MealDetailsFragment : BaseFragment() {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.addResponse.collect { addResponse ->
+                    when (addResponse) {
+                        is DataState.Init -> {}
+                        is DataState.Loading -> {
+                            showProgressAddButton(true)
+                        }
+                        is DataState.Data -> {
+                            showProgressAddButton(false)
+                            binding?.root?.let {
+                                Snackbar.make(it, addResponse.data, Snackbar.LENGTH_SHORT).show()
+                            }
+                            viewModel.resetAddResponse()
+                        }
+                        is DataState.Error -> {
+                            showProgressAddButton(false)
+                            binding?.root?.let {
+                                Snackbar.make(it, addResponse.error, Snackbar.LENGTH_SHORT).show()
+                            }
+                            viewModel.resetAddResponse()
+                        }
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.deleteResponse.collect { deleteResponse ->
+                    when (deleteResponse) {
+                        is DataState.Init -> {}
+                        is DataState.Loading -> {
+                            showProgressDeleteButton(true)
+                        }
+                        is DataState.Data -> {
+                            showProgressDeleteButton(false)
+                            binding?.root?.let {
+                                Snackbar.make(it, deleteResponse.data, Snackbar.LENGTH_SHORT).show()
+                            }
+                            viewModel.resetDeleteResponse()
+                        }
+                        is DataState.Error -> {
+                            showProgressDeleteButton(false)
+                            binding?.root?.let {
+                                Snackbar.make(it, deleteResponse.error, Snackbar.LENGTH_SHORT).show()
+                            }
+                            viewModel.resetDeleteResponse()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        val addButtonVisibility = binding?.layoutMealDetailsIncluded?.buttonMealDetailsAdd?.visibility
+        if (addButtonVisibility == View.VISIBLE)
+            outState.putBoolean(IS_ADD_BUTTON_VISIBLE, true)
+        else
+            outState.putBoolean(IS_ADD_BUTTON_VISIBLE, false)
+        super.onSaveInstanceState(outState)
     }
 
     private fun setMealData(meal: MealDomain) {
@@ -106,6 +194,13 @@ class MealDetailsFragment : BaseFragment() {
         binding?.layoutMealDetailsIncluded?.tvImageTitle?.text = meal.name
         binding?.layoutMealDetailsIncluded?.tvMealDetailsInstructionsText?.text =
             meal.instructions
+        if (meal.isInCurrentParty) {
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsAdd?.visibility = View.INVISIBLE
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsDelete?.visibility = View.VISIBLE
+        } else {
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsAdd?.visibility = View.VISIBLE
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsDelete?.visibility = View.INVISIBLE
+        }
     }
 
     private fun showProgress(isVisible: Boolean) {
@@ -118,11 +213,38 @@ class MealDetailsFragment : BaseFragment() {
         }
     }
 
+    private fun showProgressAddButton(isVisible: Boolean) {
+        if (isVisible) {
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsAdd?.visibility = View.INVISIBLE
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsDelete?.visibility = View.INVISIBLE
+            binding?.layoutMealDetailsIncluded?.pbMealDetailsToggleButton?.visibility = View.VISIBLE
+        } else {
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsAdd?.visibility = View.INVISIBLE
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsDelete?.visibility = View.VISIBLE
+            binding?.layoutMealDetailsIncluded?.pbMealDetailsToggleButton?.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun showProgressDeleteButton(isVisible: Boolean) {
+        if (isVisible) {
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsAdd?.visibility = View.INVISIBLE
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsDelete?.visibility = View.INVISIBLE
+            binding?.layoutMealDetailsIncluded?.pbMealDetailsToggleButton?.visibility = View.VISIBLE
+        } else {
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsAdd?.visibility = View.VISIBLE
+            binding?.layoutMealDetailsIncluded?.buttonMealDetailsDelete?.visibility = View.INVISIBLE
+            binding?.layoutMealDetailsIncluded?.pbMealDetailsToggleButton?.visibility = View.INVISIBLE
+        }
+    }
+
     override fun onDestroyView() {
         binding = null
         super.onDestroyView()
     }
 
+    companion object {
+        private const val IS_ADD_BUTTON_VISIBLE = "IS_ADD_BUTTON_VISIBLE"
+    }
 }
 
 private const val TAG = "MealDetailsFragment"

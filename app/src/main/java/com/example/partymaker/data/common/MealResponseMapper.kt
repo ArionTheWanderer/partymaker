@@ -94,6 +94,7 @@ class MealResponseMapper
             ingredientsWithMeasures.add(externalModel.ingredient20 to externalModel.measure20)
 
         return MealDomain(
+            isInCurrentParty = false,
             mealId = externalModel.id.toLong(),
             name = externalModel.name,
             category = MealCategoryEnum.valueOf(externalModel.category),

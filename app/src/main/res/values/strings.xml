@@ -35,4 +35,6 @@
     <string name="meal_details_ingredients_title">Ingredients</string>
     <string name="meal_details_instructions_title">Instructions</string>
     <string name="meal_details_details_title">Details</string>
+    <string name="btn_meal_details_add">Add</string>
+    <string name="btn_meal_details_delete">Delete</string>
 </resources>

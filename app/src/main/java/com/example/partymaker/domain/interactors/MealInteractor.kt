@@ -21,13 +21,21 @@ class MealInteractor
     override suspend fun getMealByName(name: String) =
         mealRepository.getMealByName(name)
 
-    override suspend fun getMealById(id: Long): DataState<MealDomain> =
-        mealRepository.getMealById(id)
+    override suspend fun getMealById(mealId: Long, partyId: Long): DataState<MealDomain> =
+        mealRepository.getMealById(mealId, partyId)
+
+    override suspend fun insertMeal(mealId: Long, partyId: Long): DataState<String> =
+        mealRepository.insertMeal(mealId, partyId)
+
+    override suspend fun deleteMeal(mealId: Long, partyId: Long) =
+        mealRepository.deleteMeal(mealId, partyId)
 }
 
 interface IMealInteractor {
     fun listenLastFetchedMealList(): Flow<DataState<List<MealDomain>>>
     suspend fun filterResultsByCategory(category: MealCategoryEnum)
     suspend fun getMealByName(name: String)
-    suspend fun getMealById(id: Long): DataState<MealDomain>
+    suspend fun getMealById(mealId: Long, partyId: Long): DataState<MealDomain>
+    suspend fun insertMeal(mealId: Long, partyId: Long): DataState<String>
+    suspend fun deleteMeal(mealId: Long, partyId: Long)
 }
