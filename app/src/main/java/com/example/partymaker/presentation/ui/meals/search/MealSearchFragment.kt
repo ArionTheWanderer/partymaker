@@ -11,6 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.RequestManager
 import com.example.partymaker.R
@@ -26,6 +27,8 @@ import javax.inject.Inject
 class MealSearchFragment : BaseFragment(), SearchView.OnQueryTextListener {
 
     private var binding: FragmentMealSearchBinding? = null
+
+    private val args: MealSearchFragmentArgs by navArgs()
 
     private var isChipCheckClearedByParent: Boolean = false
 
@@ -44,10 +47,23 @@ class MealSearchFragment : BaseFragment(), SearchView.OnQueryTextListener {
         viewModelFactory
     }
 
+    private val onItemClickListener = object: MealSearchListRecyclerViewAdapter.OnItemClickListener {
+        override fun onItemClick(mealId: Long, mealName: String) {
+            val action =
+                MealSearchFragmentDirections.actionMealSearchFragmentToMealDetailsFragment(
+                    mealId = mealId,
+                    partyId = args.partyId,
+                    mealName = mealName
+                )
+            findNavController().navigate(action)
+        }
+
+    }
+
     override fun onAttach(context: Context) {
         injector.inject(this)
         super.onAttach(context)
-        adapter = MealSearchListRecyclerViewAdapter(mutableListOf(), glide)
+        adapter = MealSearchListRecyclerViewAdapter(mutableListOf(), onItemClickListener, glide)
     }
 
     override fun onCreateView(

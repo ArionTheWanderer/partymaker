@@ -1,7 +1,10 @@
 package com.example.partymaker.data.repositories
 
+import com.example.partymaker.data.common.MealEntityMapper
 import com.example.partymaker.data.common.MealResponseMapper
+import com.example.partymaker.data.datasources.IMealLocalDataSource
 import com.example.partymaker.data.datasources.IMealRemoteDataSource
+import com.example.partymaker.data.db.entities.PartyMealCrossRef
 import com.example.partymaker.data.network.response.MealResponse
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.MealCategoryEnum
@@ -20,7 +23,9 @@ import javax.inject.Singleton
 class MealRepository
 @Inject constructor(
     private val mealRemoteDataSource: IMealRemoteDataSource,
-    private val mealResponseMapper: MealResponseMapper
+    private val mealLocalDataSource: IMealLocalDataSource,
+    private val mealResponseMapper: MealResponseMapper,
+    private val mealEntityMapper: MealEntityMapper
 ) : IMealRepository {
 
     private var lastFetchedMealListDomain: DataState<List<MealDomain>> = DataState.Init
@@ -64,6 +69,70 @@ class MealRepository
         lastFetchedMealListDomain = DataState.Error("Network error: ${mealByNameResponse.code()}")
         lastFetchedMealListDomainFlow.emit(DataState.Error("Network error: ${mealByNameResponse.code()}"))
         return@withContext
+    }
+
+    override suspend fun getMealById(id: Long): DataState<MealDomain> = withContext(Dispatchers.IO){
+        val mealByIdResponse: Response<MealResponse>
+        try {
+            mealByIdResponse = mealRemoteDataSource.getMealById(id)
+        } catch (e: Exception) {
+            val mealFromLocal = mealLocalDataSource.getMeal(id)
+            if (mealFromLocal != null) {
+                val mealDomain = mealEntityMapper.mapToDomainModel(mealFromLocal)
+                return@withContext DataState.Data(mealDomain)
+            } else {
+                return@withContext DataState.Error("Network error. DB is empty")
+            }
+        }
+
+        if (mealByIdResponse.isSuccessful) {
+            mealByIdResponse.body().let { mealResponse ->
+                val mealFromResponse = mealResponse?.meals?.get(0)
+                if (mealFromResponse != null) {
+                    val mealDomain = mealResponseMapper.mapToDomainModel(mealFromResponse)
+                    return@withContext DataState.Data(mealDomain)
+                } else {
+                    return@withContext DataState.Error("Wrong id")
+                }
+            }
+        }
+        return@withContext DataState.Error("Network error: ${mealByIdResponse.code()}")
+    }
+
+    override suspend fun insertMeal(mealId: Long, partyId: Long): DataState<String> = withContext(Dispatchers.IO){
+        val mealByIdResponse: Response<MealResponse>
+        try {
+            mealByIdResponse = mealRemoteDataSource.getMealById(mealId)
+        } catch (e: Exception) {
+            return@withContext DataState.Error("Network error. DB is empty")
+        }
+
+        if (mealByIdResponse.isSuccessful) {
+            mealByIdResponse.body().let { mealResponse ->
+                val mealFromResponse = mealResponse?.meals?.get(0)
+                if (mealFromResponse != null) {
+                    val mealDomain = mealResponseMapper.mapToDomainModel(mealFromResponse)
+                    val mealWithIngredients = mealEntityMapper.mapFromDomainModel(mealDomain)
+                    mealLocalDataSource.insertMeal(
+                        mealEntity = mealWithIngredients.meal,
+                        mealIngredientListEntity = mealWithIngredients.mealIngredientList,
+                        partyMealCrossRef = PartyMealCrossRef(
+                            partyId = partyId,
+                            mealId = mealId
+                        )
+                    )
+                    return@withContext DataState.Data("Inserted")
+                } else {
+                    return@withContext DataState.Error("Wrong id")
+                }
+            }
+        }
+        return@withContext DataState.Error("Network error: ${mealByIdResponse.code()}")
+
+    }
+
+    override suspend fun deleteMeal(mealId: Long, partyId: Long) = withContext(Dispatchers.IO) {
+        mealLocalDataSource.deleteMeal(mealId, partyId)
     }
 
     override suspend fun filterResultsByCategory(category: MealCategoryEnum) =

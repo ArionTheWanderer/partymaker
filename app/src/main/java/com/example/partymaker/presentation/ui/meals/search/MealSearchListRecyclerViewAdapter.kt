@@ -14,8 +14,8 @@ import com.example.partymaker.domain.entities.MealDomain
 
 class MealSearchListRecyclerViewAdapter(
     private val values: MutableList<MealDomain>,
+    private val mListener: OnItemClickListener,
     private val glide: RequestManager
-//    private val mListener: OnItemClickListener
 ) : RecyclerView.Adapter<MealSearchListRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,9 +38,9 @@ class MealSearchListRecyclerViewAdapter(
             .load(item.thumbnailLink)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(holder.image)
-//        holder.root.setOnClickListener {
-//            mListener.onItemClick(itemId = item.id, partyName = item.name)
-//        }
+        holder.root.setOnClickListener {
+            mListener.onItemClick(mealId = item.mealId, mealName = item.name)
+        }
     }
 
     override fun getItemCount(): Int = values.size
@@ -69,7 +69,7 @@ class MealSearchListRecyclerViewAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(itemId: Long, partyName: String)
+        fun onItemClick(mealId: Long, mealName: String)
     }
 }
 

@@ -7,6 +7,7 @@ import com.example.partymaker.presentation.ui.parties.details.PartyDetailsViewMo
 import com.example.partymaker.presentation.ui.parties.dialogs.PartyDialogViewModel
 import com.example.partymaker.presentation.ui.parties.list.PartyListViewModel
 import com.example.partymaker.presentation.ui.cocktails.search.CocktailSearchViewModel
+import com.example.partymaker.presentation.ui.meals.details.MealDetailsViewModel
 import com.example.partymaker.presentation.ui.meals.search.MealSearchViewModel
 import com.example.partymaker.presentation.viewmodels.PartyViewModelFactory
 import dagger.Binds
@@ -48,5 +49,10 @@ abstract class ViewModelsModule {
     @IntoMap
     @ViewModelKey(CocktailSearchViewModel::class)
     abstract fun bindCocktailSearchViewModel(cocktailSearchViewModel: CocktailSearchViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MealDetailsViewModel::class)
+    abstract fun bindMealDetailsViewModel(mealDetailsViewModel: MealDetailsViewModel): ViewModel
 
 }

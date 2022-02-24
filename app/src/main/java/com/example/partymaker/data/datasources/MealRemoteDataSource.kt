@@ -8,6 +8,7 @@ import javax.inject.Singleton
 
 interface IMealRemoteDataSource {
     suspend fun getMealByName(name: String): Response<MealResponse>
+    suspend fun getMealById(id: Long): Response<MealResponse>
 }
 
 @Singleton
@@ -18,4 +19,6 @@ class MealRemoteDataSource
     override suspend fun getMealByName(name: String): Response<MealResponse> =
         mealApi.getMealByName(name)
 
+    override suspend fun getMealById(id: Long): Response<MealResponse> =
+        mealApi.getMealById(id)
 }

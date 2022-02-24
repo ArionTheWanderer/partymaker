@@ -2,6 +2,7 @@ package com.example.partymaker.presentation.di.app
 
 import android.app.Application
 import androidx.room.Room
+import com.example.partymaker.data.db.MealDao
 import com.example.partymaker.data.db.PartyDao
 import com.example.partymaker.data.db.PartyDatabase
 import dagger.Module
@@ -26,5 +27,12 @@ object DbModule {
     @Provides
     fun providePartyDao(db: PartyDatabase): PartyDao {
         return db.partyDao()
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideMealDao(db: PartyDatabase): MealDao {
+        return db.mealDao()
     }
 }

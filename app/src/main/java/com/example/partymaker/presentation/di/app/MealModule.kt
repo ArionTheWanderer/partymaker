@@ -1,6 +1,8 @@
 package com.example.partymaker.presentation.di.app
 
+import com.example.partymaker.data.datasources.IMealLocalDataSource
 import com.example.partymaker.data.datasources.IMealRemoteDataSource
+import com.example.partymaker.data.datasources.MealLocalDataSource
 import com.example.partymaker.data.datasources.MealRemoteDataSource
 import com.example.partymaker.data.repositories.MealRepository
 import com.example.partymaker.domain.interactors.IMealInteractor
@@ -11,6 +13,9 @@ import dagger.Module
 
 @Module
 abstract class MealModule {
+
+    @Binds
+    abstract fun provideMealLocalDataSource(mealLocalDataSource: MealLocalDataSource): IMealLocalDataSource
 
     @Binds
     abstract fun provideMealRemoteDataSource(mealRemoteDataSource: MealRemoteDataSource): IMealRemoteDataSource

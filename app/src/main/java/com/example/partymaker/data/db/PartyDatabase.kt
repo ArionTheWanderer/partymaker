@@ -15,6 +15,7 @@ import com.example.partymaker.data.db.entities.*
 )
 abstract class PartyDatabase: RoomDatabase() {
     abstract fun partyDao(): PartyDao
+    abstract fun mealDao(): MealDao
 
     companion object {
 

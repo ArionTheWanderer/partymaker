@@ -5,6 +5,8 @@ import com.example.partymaker.data.common.PartyEntityMapper
 import com.example.partymaker.data.datasources.IPartyLocalDataSource
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.PartyDomain
+import com.example.partymaker.domain.repositories.ICocktailRepository
+import com.example.partymaker.domain.repositories.IMealRepository
 import com.example.partymaker.domain.repositories.IPartyRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -16,8 +18,10 @@ import javax.inject.Singleton
 class PartyRepository
 @Inject constructor(
     private val partyLocalDataSource: IPartyLocalDataSource,
+    private val mealRepository: IMealRepository,
+    private val cocktailRepository: ICocktailRepository,
     private val partyEntityMapper: PartyEntityMapper
-) : IPartyRepository {
+    ) : IPartyRepository {
 
     override suspend fun insertParty(party: PartyDomain): DataState<String> = withContext(Dispatchers.IO) {
         val newId = partyLocalDataSource.insertParty(partyEntityMapper.mapFromDomainModel(party))

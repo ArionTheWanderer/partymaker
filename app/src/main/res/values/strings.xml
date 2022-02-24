@@ -32,4 +32,7 @@
     <string name="chip_alcoholic">Alcoholic</string>
     <string name="chip_non_alcoholic">Non alcoholic</string>
     <string name="chip_optional_alcohol">Optional alcohol</string>
+    <string name="meal_details_ingredients_title">Ingredients</string>
+    <string name="meal_details_instructions_title">Instructions</string>
+    <string name="meal_details_details_title">Details</string>
 </resources>

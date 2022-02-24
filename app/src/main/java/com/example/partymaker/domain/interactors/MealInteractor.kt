@@ -20,10 +20,14 @@ class MealInteractor
 
     override suspend fun getMealByName(name: String) =
         mealRepository.getMealByName(name)
+
+    override suspend fun getMealById(id: Long): DataState<MealDomain> =
+        mealRepository.getMealById(id)
 }
 
 interface IMealInteractor {
     fun listenLastFetchedMealList(): Flow<DataState<List<MealDomain>>>
     suspend fun filterResultsByCategory(category: MealCategoryEnum)
     suspend fun getMealByName(name: String)
+    suspend fun getMealById(id: Long): DataState<MealDomain>
 }
