@@ -90,12 +90,18 @@
         <argument
             android:name="partyId"
             app:argType="long" />
+        <action
+            android:id="@+id/action_CocktailSearchFragment_to_cocktailDetailsFragment"
+            app:destination="@id/cocktailDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/mealDetailsFragment"
         android:name="com.example.partymaker.presentation.ui.meals.details.MealDetailsFragment"
-        android:label="fragment_meal_details"
-        tools:layout="@layout/fragment_meal_details" >
+        tools:layout="@layout/fragment_meal_details">
         <argument
             android:name="partyId"
             app:argType="long" />
@@ -104,6 +110,20 @@
             app:argType="long" />
         <argument
             android:name="mealName"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/cocktailDetailsFragment"
+        android:name="com.example.partymaker.presentation.ui.cocktails.details.CocktailDetailsFragment"
+        tools:layout="@layout/fragment_cocktail_details" >
+        <argument
+            android:name="partyId"
+            app:argType="long" />
+        <argument
+            android:name="cocktailId"
+            app:argType="long" />
+        <argument
+            android:name="cocktailName"
             app:argType="string" />
     </fragment>
 

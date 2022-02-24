@@ -57,7 +57,6 @@ class MealSearchFragment : BaseFragment(), SearchView.OnQueryTextListener {
                 )
             findNavController().navigate(action)
         }
-
     }
 
     override fun onAttach(context: Context) {

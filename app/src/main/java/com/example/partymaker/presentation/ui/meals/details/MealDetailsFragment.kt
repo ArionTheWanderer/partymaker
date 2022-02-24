@@ -87,7 +87,7 @@ class MealDetailsFragment : BaseFragment() {
         binding?.layoutMealDetailsIncluded?.buttonMealDetailsDelete?.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 whenStarted {
-                    Log.d(TAG, "onViewCreated: insertMeal")
+                    Log.d(TAG, "onViewCreated: deleteMeal")
                     viewModel.deleteMeal(args.mealId, args.partyId)
                 }
             }

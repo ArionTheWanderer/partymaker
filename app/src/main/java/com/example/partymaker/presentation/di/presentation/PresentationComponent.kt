@@ -1,5 +1,6 @@
 package com.example.partymaker.presentation.di.presentation
 
+import com.example.partymaker.presentation.ui.cocktails.details.CocktailDetailsFragment
 import com.example.partymaker.presentation.ui.parties.dialogs.PartyDeleteDialogFragment
 import com.example.partymaker.presentation.ui.parties.dialogs.PartyDialogFragment
 import com.example.partymaker.presentation.ui.parties.list.PartyListFragment
@@ -24,6 +25,7 @@ interface PresentationComponent {
     fun inject(mealSearchFragment: MealSearchFragment)
     fun inject(cocktailSearchFragment: CocktailSearchFragment)
     fun inject(mealDetailsFragment: MealDetailsFragment)
+    fun inject(cocktailDetailsFragment: CocktailDetailsFragment)
 
     @Subcomponent.Factory
     interface Factory{

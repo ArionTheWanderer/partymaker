@@ -20,10 +20,25 @@ class CocktailInteractor
 
     override suspend fun getCocktailByName(name: String) =
         cocktailRepository.getCocktailByName(name)
+
+    override suspend fun getCocktailById(
+        cocktailId: Long,
+        partyId: Long
+    ): DataState<CocktailDomain> =
+        cocktailRepository.getCocktailById(cocktailId, partyId)
+
+    override suspend fun insertCocktail(cocktailId: Long, partyId: Long): DataState<String> =
+        cocktailRepository.insertCocktail(cocktailId, partyId)
+
+    override suspend fun deleteCocktail(cocktailId: Long, partyId: Long) =
+        cocktailRepository.deleteCocktail(cocktailId, partyId)
 }
 
 interface ICocktailInteractor {
     fun listenLastFetchedCocktailList(): Flow<DataState<List<CocktailDomain>>>
     suspend fun filterResultsByAlcoholic(alcoholic: CocktailAlcoholicEnum)
     suspend fun getCocktailByName(name: String)
+    suspend fun getCocktailById(cocktailId: Long, partyId: Long): DataState<CocktailDomain>
+    suspend fun insertCocktail(cocktailId: Long, partyId: Long): DataState<String>
+    suspend fun deleteCocktail(cocktailId: Long, partyId: Long)
 }

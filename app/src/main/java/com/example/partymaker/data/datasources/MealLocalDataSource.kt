@@ -12,9 +12,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface IMealLocalDataSource {
-//    suspend fun updateMeal(
-//        mealEntity: MealEntity,
-//        mealIngredientListEntity: List<MealIngredientEntity>)
+    suspend fun updateMeal(
+        mealEntity: MealEntity,
+        mealIngredientListEntity: List<MealIngredientEntity>)
     suspend fun insertMeal(
         mealEntity: MealEntity,
         mealIngredientListEntity: List<MealIngredientEntity>,
@@ -24,18 +24,17 @@ interface IMealLocalDataSource {
     suspend fun getMealById(mealId: Long, partyId: Long): DataState<MealDomain>
 }
 
-private const val TAG = "MealLocalDataSource"
-
 @Singleton
 class MealLocalDataSource
 @Inject constructor(
     private val mealDao: MealDao,
     private val mealEntityMapper: MealEntityMapper
 ) : IMealLocalDataSource {
-//    override suspend fun updateMeal(
-//        mealEntity: MealEntity,
-//        mealIngredientListEntity: List<MealIngredientEntity>
-//    ) = mealDao.updateMeal(mealEntity, mealIngredientListEntity)
+
+    override suspend fun updateMeal(
+        mealEntity: MealEntity,
+        mealIngredientListEntity: List<MealIngredientEntity>
+    ) = mealDao.updateMeal(mealEntity, mealIngredientListEntity)
 
     override suspend fun insertMeal(
         mealEntity: MealEntity,
@@ -65,5 +64,6 @@ class MealLocalDataSource
 
     }
 
-
 }
+
+private const val TAG = "MealLocalDataSource"

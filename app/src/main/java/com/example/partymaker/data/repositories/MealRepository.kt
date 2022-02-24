@@ -40,7 +40,6 @@ class MealRepository
         lastFetchedMealListDomainFlow
 
     override suspend fun getMealByName(name: String) = withContext(Dispatchers.IO) {
-
         val mealByNameResponse: Response<MealResponse>
         try {
             mealByNameResponse = mealRemoteDataSource.getMealByName(name)
@@ -92,13 +91,9 @@ class MealRepository
 
                     if (isAlreadyInDb) {
                         val mealWithIngredients = mealEntityMapper.mapFromDomainModel(mealDomain)
-                        mealLocalDataSource.insertMeal(
+                        mealLocalDataSource.updateMeal(
                             mealEntity = mealWithIngredients.meal,
-                            mealIngredientListEntity = mealWithIngredients.mealIngredientList,
-                            partyMealCrossRef = PartyMealCrossRef(
-                                partyId = partyId,
-                                mealId = mealId
-                            )
+                            mealIngredientListEntity = mealWithIngredients.mealIngredientList
                         )
                         mealDomain.isInCurrentParty = true
                     }

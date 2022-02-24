@@ -94,6 +94,7 @@ class CocktailResponseMapper
             ingredientsWithMeasures.add(externalModel.ingredient20 to externalModel.measure20)
 
         return CocktailDomain(
+            isInCurrentParty = false,
             cocktailId = externalModel.id.toLong(),
             name = externalModel.name,
             videoLink = externalModel.video,

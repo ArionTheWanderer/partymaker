@@ -1,6 +1,7 @@
 package com.example.partymaker.domain.entities
 
 data class CocktailDomain(
+    var isInCurrentParty: Boolean,
     val cocktailId: Long,
     val name: String,
     val videoLink: String?,

@@ -1,7 +1,10 @@
 package com.example.partymaker.data.repositories
 
+import com.example.partymaker.data.common.CocktailEntityMapper
 import com.example.partymaker.data.common.CocktailResponseMapper
+import com.example.partymaker.data.datasources.ICocktailLocalDataSource
 import com.example.partymaker.data.datasources.ICocktailRemoteDataSource
+import com.example.partymaker.data.db.entities.PartyCocktailCrossRef
 import com.example.partymaker.data.network.response.CocktailResponse
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.CocktailAlcoholicEnum
@@ -20,7 +23,9 @@ import javax.inject.Singleton
 class CocktailRepository
 @Inject constructor(
     private val cocktailRemoteDataSource: ICocktailRemoteDataSource,
-    private val cocktailResponseMapper: CocktailResponseMapper
+    private val cocktailLocalDataSource: ICocktailLocalDataSource,
+    private val cocktailResponseMapper: CocktailResponseMapper,
+    private val cocktailEntityMapper: CocktailEntityMapper
 ) : ICocktailRepository {
 
     private var lastFetchedCocktailListDomain: DataState<List<CocktailDomain>> = DataState.Init
@@ -84,4 +89,79 @@ class CocktailRepository
                 }
             }
         }
+
+    override suspend fun getCocktailById(
+        cocktailId: Long,
+        partyId: Long
+    ): DataState<CocktailDomain> = withContext(Dispatchers.IO){
+        var isAlreadyInDb = false
+        val cocktailFromLocal = cocktailLocalDataSource.getCocktailById(cocktailId, partyId)
+        if (cocktailFromLocal is DataState.Data)
+            isAlreadyInDb = true
+
+        val cocktailByIdResponse: Response<CocktailResponse>
+        try {
+            cocktailByIdResponse = cocktailRemoteDataSource.getCocktailById(cocktailId)
+        } catch (e: Exception) {
+            return@withContext cocktailFromLocal
+        }
+
+        if (cocktailByIdResponse.isSuccessful) {
+            cocktailByIdResponse.body().let { cocktailResponse ->
+                val cocktailFromResponse = cocktailResponse?.drinks?.get(0)
+                if (cocktailFromResponse != null) {
+                    val cocktailDomain = cocktailResponseMapper.mapToDomainModel(cocktailFromResponse)
+
+                    if (isAlreadyInDb) {
+                        val cocktailWithIngredients = cocktailEntityMapper.mapFromDomainModel(cocktailDomain)
+                        cocktailLocalDataSource.updateCocktail(
+                            cocktailEntity = cocktailWithIngredients.cocktail,
+                            cocktailIngredientListEntity = cocktailWithIngredients.cocktailIngredientList
+                        )
+                        cocktailDomain.isInCurrentParty = true
+                    }
+
+                    return@withContext DataState.Data(cocktailDomain)
+                } else {
+                    return@withContext DataState.Error("Wrong id")
+                }
+            }
+        }
+        return@withContext DataState.Error("Network error: ${cocktailByIdResponse.code()}")
+    }
+
+    override suspend fun insertCocktail(cocktailId: Long, partyId: Long): DataState<String> = withContext(Dispatchers.IO){
+        val cocktailByIdResponse: Response<CocktailResponse>
+        try {
+            cocktailByIdResponse = cocktailRemoteDataSource.getCocktailById(cocktailId)
+        } catch (e: Exception) {
+            return@withContext DataState.Error("Network error. Can't save to DB")
+        }
+
+        if (cocktailByIdResponse.isSuccessful) {
+            cocktailByIdResponse.body().let { cocktailResponse ->
+                val cocktailFromResponse = cocktailResponse?.drinks?.get(0)
+                if (cocktailFromResponse != null) {
+                    val cocktailDomain = cocktailResponseMapper.mapToDomainModel(cocktailFromResponse)
+                    val cocktailWithIngredients = cocktailEntityMapper.mapFromDomainModel(cocktailDomain)
+                    cocktailLocalDataSource.insertCocktail(
+                        cocktailEntity = cocktailWithIngredients.cocktail,
+                        cocktailIngredientListEntity = cocktailWithIngredients.cocktailIngredientList,
+                        partyCocktailCrossRef = PartyCocktailCrossRef(
+                            partyId = partyId,
+                            cocktailId = cocktailId
+                        )
+                    )
+                    return@withContext DataState.Data("Inserted")
+                } else {
+                    return@withContext DataState.Error("Wrong id")
+                }
+            }
+        }
+        return@withContext DataState.Error("Network error: ${cocktailByIdResponse.code()}")
+    }
+
+    override suspend fun deleteCocktail(cocktailId: Long, partyId: Long) = withContext(Dispatchers.IO) {
+        cocktailLocalDataSource.deleteCocktail(cocktailId, partyId)
+    }
 }

@@ -15,8 +15,8 @@ import com.example.partymaker.domain.entities.CocktailDomain
 
 class CocktailSearchListRecyclerViewAdapter(
     private val values: MutableList<CocktailDomain>,
+    private val mListener: OnItemClickListener,
     private val glide: RequestManager
-//    private val mListener: OnItemClickListener
 ) : RecyclerView.Adapter<CocktailSearchListRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,9 +39,9 @@ class CocktailSearchListRecyclerViewAdapter(
             .load(item.thumbnailLink)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(holder.image)
-//        holder.root.setOnClickListener {
-//            mListener.onItemClick(itemId = item.id, partyName = item.name)
-//        }
+        holder.root.setOnClickListener {
+            mListener.onItemClick(cocktailId = item.cocktailId, cocktailName = item.name)
+        }
     }
 
     override fun getItemCount(): Int = values.size
@@ -71,7 +71,7 @@ class CocktailSearchListRecyclerViewAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(itemId: Long, partyName: String)
+        fun onItemClick(cocktailId: Long, cocktailName: String)
     }
 }
 

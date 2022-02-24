@@ -2,6 +2,7 @@ package com.example.partymaker.presentation.di.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.partymaker.presentation.ui.cocktails.details.CocktailDetailsViewModel
 import com.example.partymaker.presentation.ui.parties.dialogs.PartyDeleteDialogViewModel
 import com.example.partymaker.presentation.ui.parties.details.PartyDetailsViewModel
 import com.example.partymaker.presentation.ui.parties.dialogs.PartyDialogViewModel
@@ -54,5 +55,10 @@ abstract class ViewModelsModule {
     @IntoMap
     @ViewModelKey(MealDetailsViewModel::class)
     abstract fun bindMealDetailsViewModel(mealDetailsViewModel: MealDetailsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CocktailDetailsViewModel::class)
+    abstract fun bindCocktailDetailsViewModel(cocktailDetailsViewModel: CocktailDetailsViewModel): ViewModel
 
 }

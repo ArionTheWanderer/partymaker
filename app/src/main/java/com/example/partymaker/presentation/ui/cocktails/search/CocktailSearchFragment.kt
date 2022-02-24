@@ -11,6 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.RequestManager
 import com.example.partymaker.R
@@ -18,6 +19,8 @@ import com.example.partymaker.databinding.FragmentCocktailSearchBinding
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.domain.entities.CocktailAlcoholicEnum
 import com.example.partymaker.presentation.ui.common.BaseFragment
+import com.example.partymaker.presentation.ui.meals.search.MealSearchFragmentDirections
+import com.example.partymaker.presentation.ui.meals.search.MealSearchListRecyclerViewAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -26,6 +29,8 @@ import javax.inject.Inject
 class CocktailSearchFragment: BaseFragment(), SearchView.OnQueryTextListener {
 
     private var binding: FragmentCocktailSearchBinding? = null
+
+    private val args: CocktailSearchFragmentArgs by navArgs()
 
     private var isChipCheckClearedByParent: Boolean = false
 
@@ -44,10 +49,22 @@ class CocktailSearchFragment: BaseFragment(), SearchView.OnQueryTextListener {
         viewModelFactory
     }
 
+    private val onItemClickListener = object: CocktailSearchListRecyclerViewAdapter.OnItemClickListener {
+        override fun onItemClick(cocktailId: Long, cocktailName: String) {
+            val action =
+                CocktailSearchFragmentDirections.actionCocktailSearchFragmentToCocktailDetailsFragment(
+                    cocktailId = cocktailId,
+                    partyId = args.partyId,
+                    cocktailName = cocktailName
+                )
+            findNavController().navigate(action)
+        }
+    }
+
     override fun onAttach(context: Context) {
         injector.inject(this)
         super.onAttach(context)
-        adapter = CocktailSearchListRecyclerViewAdapter(mutableListOf(), glide)
+        adapter = CocktailSearchListRecyclerViewAdapter(mutableListOf(), onItemClickListener, glide)
     }
 
     override fun onCreateView(

@@ -8,6 +8,7 @@ import javax.inject.Singleton
 
 interface ICocktailRemoteDataSource {
     suspend fun getCocktailByName(name: String): Response<CocktailResponse>
+    suspend fun getCocktailById(id: Long): Response<CocktailResponse>
 }
 
 @Singleton
@@ -18,4 +19,6 @@ class CocktailRemoteDataSource
     override suspend fun getCocktailByName(name: String): Response<CocktailResponse> =
         cocktailApi.getCocktailByName(name)
 
+    override suspend fun getCocktailById(id: Long): Response<CocktailResponse> =
+        cocktailApi.getCocktailById(id)
 }

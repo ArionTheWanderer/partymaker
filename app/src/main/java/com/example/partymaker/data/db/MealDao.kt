@@ -16,11 +16,11 @@ interface MealDao {
         mealIngredientListEntity: List<MealIngredientEntity>,
         partyMealCrossRef: PartyMealCrossRef)
 
-//    @Transaction
-//    @Update(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun updateMeal(
-//        mealEntity: MealEntity,
-//        mealIngredientListEntity: List<MealIngredientEntity>)
+    @Transaction
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateMeal(
+        mealEntity: MealEntity,
+        mealIngredientListEntity: List<MealIngredientEntity>)
 
     @Transaction
     @Query("SELECT * FROM meal WHERE meal_id = :id")
@@ -37,11 +37,5 @@ interface MealDao {
 
     @Query("DELETE FROM party_meal WHERE party_id = :partyId AND meal_id = :mealId")
     suspend fun deletePartyMealCrossRef(partyId: Long, mealId: Long)
-
-//    @Insert(onConflict = OnConflictStrategy.IGNORE)
-//    suspend fun insertMealIngredient(): Long
-//
-//    @Insert(onConflict = OnConflictStrategy.IGNORE)
-//    suspend fun insert(): List<Long>
 
 }
