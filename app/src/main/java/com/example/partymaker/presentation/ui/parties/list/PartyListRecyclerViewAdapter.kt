@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui.parties
+package com.example.partymaker.presentation.ui.parties.list
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView

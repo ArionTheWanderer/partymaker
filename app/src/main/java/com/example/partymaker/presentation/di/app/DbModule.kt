@@ -6,8 +6,6 @@ import com.example.partymaker.data.db.PartyDao
 import com.example.partymaker.data.db.PartyDatabase
 import dagger.Module
 import dagger.Provides
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
 
 @Module

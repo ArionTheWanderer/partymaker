@@ -1,7 +1,7 @@
 package com.example.partymaker.presentation.ui.common
 
 import androidx.appcompat.app.AppCompatActivity
-import com.example.partymaker.PartyApplication
+import com.example.partymaker.presentation.ui.PartyApplication
 
 open class BaseActivity: AppCompatActivity() {
 
@@ -11,9 +11,9 @@ open class BaseActivity: AppCompatActivity() {
         appComponent.getActivityComponentFactory().create(this)
     }
 
-//    private val presentationComponent by lazy {
-//        activityComponent.getPresentationComponentFactory().create()
-//    }
-//
-//    protected val injector get() = presentationComponent
+    private val presentationComponent by lazy {
+        activityComponent.getPresentationComponentFactory().create()
+    }
+
+    protected val injector get() = presentationComponent
 }

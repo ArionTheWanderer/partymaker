@@ -55,10 +55,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-    // Paging 3 Integration
-    implementation "androidx.room:room-paging:$room_version"
 
-    // implementation "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_and_viewmodel_ktx_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$viewmodel_lifecycle_ktx_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_lifecycle_ktx_version"
 

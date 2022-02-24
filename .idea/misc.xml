@@ -5,7 +5,7 @@
       <map>
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/drawable/btn_add.xml" value="0.175" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/drawable/ic_error.xml" value="0.1565" />
-        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_blank.xml" value="0.25416666666666665" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_cocktail_list.xml" value="0.25416666666666665" />
@@ -15,6 +15,8 @@
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_dishes_list.xml" value="0.17291666666666666" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_item.xml" value="0.22327898550724637" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_item_list.xml" value="0.1" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_meal_details.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_meal_list.xml" value="0.25416666666666665" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_meal_search.xml" value="0.264" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_parties.xml" value="0.12360688956433637" />
         <entry key="..\:/AndersenPartyMaker/PartyMaker/app/src/main/res/layout/fragment_parties_list.xml" value="0.2269021739130435" />

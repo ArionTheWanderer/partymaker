@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui.parties.search.meals
+package com.example.partymaker.presentation.ui.meals.search
 
 import android.annotation.SuppressLint
 import android.content.Context

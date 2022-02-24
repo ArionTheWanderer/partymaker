@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui.parties.search.meals
+package com.example.partymaker.presentation.ui.meals.search
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

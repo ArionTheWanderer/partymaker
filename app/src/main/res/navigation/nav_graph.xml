@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/PartyListFragment"
-        android:name="com.example.partymaker.presentation.ui.parties.PartyListFragment"
+        android:name="com.example.partymaker.presentation.ui.parties.list.PartyListFragment"
         android:label="Parties"
         tools:layout="@layout/fragment_party_list">
         <action
@@ -68,7 +68,7 @@
     <action android:id="@+id/action_global_PartyListFragment_popup" app:popUpTo="@id/PartyListFragment" />
     <fragment
         android:id="@+id/MealSearchFragment"
-        android:name="com.example.partymaker.presentation.ui.parties.search.meals.MealSearchFragment"
+        android:name="com.example.partymaker.presentation.ui.meals.search.MealSearchFragment"
         android:label="Searching a meal"
         tools:layout="@layout/fragment_meal_search">
         <argument
@@ -77,7 +77,7 @@
     </fragment>
     <fragment
         android:id="@+id/CocktailSearchFragment"
-        android:name="com.example.partymaker.presentation.ui.parties.search.cocktails.CocktailSearchFragment"
+        android:name="com.example.partymaker.presentation.ui.cocktails.search.CocktailSearchFragment"
         android:label="Searching a cocktail"
         tools:layout="@layout/fragment_cocktail_search">
         <argument

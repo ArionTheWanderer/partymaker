@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui.parties
+package com.example.partymaker.presentation.ui
 
 import android.os.Bundle
 import com.example.partymaker.databinding.ActivityMainBinding

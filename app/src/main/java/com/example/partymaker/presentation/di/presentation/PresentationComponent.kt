@@ -2,10 +2,10 @@ package com.example.partymaker.presentation.di.presentation
 
 import com.example.partymaker.presentation.ui.parties.dialogs.PartyDeleteDialogFragment
 import com.example.partymaker.presentation.ui.parties.dialogs.PartyDialogFragment
-import com.example.partymaker.presentation.ui.parties.PartyListFragment
+import com.example.partymaker.presentation.ui.parties.list.PartyListFragment
 import com.example.partymaker.presentation.ui.parties.details.PartyDetailsFragment
-import com.example.partymaker.presentation.ui.parties.search.cocktails.CocktailSearchFragment
-import com.example.partymaker.presentation.ui.parties.search.meals.MealSearchFragment
+import com.example.partymaker.presentation.ui.cocktails.search.CocktailSearchFragment
+import com.example.partymaker.presentation.ui.meals.search.MealSearchFragment
 import dagger.Subcomponent
 
 @PresentationScope

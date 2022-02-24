@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.partymaker.presentation.ui.parties.dialogs.PartyDeleteDialogViewModel
 import com.example.partymaker.presentation.ui.parties.details.PartyDetailsViewModel
 import com.example.partymaker.presentation.ui.parties.dialogs.PartyDialogViewModel
-import com.example.partymaker.presentation.ui.parties.PartyListViewModel
-import com.example.partymaker.presentation.ui.parties.search.cocktails.CocktailSearchViewModel
-import com.example.partymaker.presentation.ui.parties.search.meals.MealSearchViewModel
+import com.example.partymaker.presentation.ui.parties.list.PartyListViewModel
+import com.example.partymaker.presentation.ui.cocktails.search.CocktailSearchViewModel
+import com.example.partymaker.presentation.ui.meals.search.MealSearchViewModel
 import com.example.partymaker.presentation.viewmodels.PartyViewModelFactory
 import dagger.Binds
 import dagger.Module

@@ -15,7 +15,6 @@ import androidx.navigation.fragment.navArgs
 import com.example.partymaker.databinding.FragmentPartyDeleteDialogBinding
 import com.example.partymaker.domain.common.DataState
 import com.example.partymaker.presentation.ui.common.BaseBottomSheetDialogFragment
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

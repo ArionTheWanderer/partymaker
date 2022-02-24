@@ -1,4 +1,4 @@
-package com.example.partymaker
+package com.example.partymaker.presentation.ui
 
 import android.app.Application
 import com.example.partymaker.presentation.di.app.AppComponent

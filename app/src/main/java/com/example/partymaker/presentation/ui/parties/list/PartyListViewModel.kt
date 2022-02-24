@@ -1,4 +1,4 @@
-package com.example.partymaker.presentation.ui.parties
+package com.example.partymaker.presentation.ui.parties.list
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
