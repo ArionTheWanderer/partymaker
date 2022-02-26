@@ -22,6 +22,14 @@ interface PartyDao {
     @Query("SELECT * FROM party WHERE party_id=:partyId")
     fun getPartyWithCocktails(partyId: Long): Flow<List<PartyWithCocktails>>
 
+    @Transaction
+    @Query("SELECT * FROM party WHERE party_id=:partyId")
+    suspend fun getPartyWithMealsSus(partyId: Long): PartyWithMeals
+
+    @Transaction
+    @Query("SELECT * FROM party WHERE party_id=:partyId")
+    suspend fun getPartyWithCocktailsSus(partyId: Long): PartyWithCocktails
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(partyEntity: PartyEntity): Long
 

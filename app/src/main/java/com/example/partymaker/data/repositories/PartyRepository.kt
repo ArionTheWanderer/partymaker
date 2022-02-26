@@ -48,6 +48,14 @@ class PartyRepository
     }
 
     override suspend fun deleteParty(id: Long) = withContext(Dispatchers.IO) {
+        val partyWithMeals = partyLocalDataSource.getPartyWithMealsSus(id)
+        val partyWithCocktails = partyLocalDataSource.getPartyWithCocktailsSus(id)
+        partyWithMeals.mealWithIngredientsList.forEach {
+            deleteMeal(it.meal.mealId, id)
+        }
+        partyWithCocktails.cocktailWithIngredientsList.forEach {
+            deleteCocktail(it.cocktail.cocktailId, id)
+        }
         partyLocalDataSource.deleteParty(id)
     }
 
