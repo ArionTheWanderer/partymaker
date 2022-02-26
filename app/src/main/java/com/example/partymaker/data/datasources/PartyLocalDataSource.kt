@@ -17,6 +17,8 @@ interface IPartyLocalDataSource {
     fun getAllParties(): Flow<List<PartyEntity>>
     fun getPartyWithMeals(partyId: Long): Flow<List<PartyWithMeals>>
     fun getPartyWithCocktails(partyId: Long): Flow<List<PartyWithCocktails>>
+    suspend fun getPartyWithMealsSus(partyId: Long): PartyWithMeals
+    suspend fun getPartyWithCocktailsSus(partyId: Long): PartyWithCocktails
 }
 
 private const val TAG = "PartyLocalDataSource"
@@ -51,5 +53,11 @@ class PartyLocalDataSource
 
     override fun getPartyWithCocktails(partyId: Long): Flow<List<PartyWithCocktails>> =
         partyDao.getPartyWithCocktails(partyId)
+
+    override suspend fun getPartyWithMealsSus(partyId: Long): PartyWithMeals =
+        partyDao.getPartyWithMealsSus(partyId)
+
+    override suspend fun getPartyWithCocktailsSus(partyId: Long): PartyWithCocktails =
+        partyDao.getPartyWithCocktailsSus(partyId)
 
 }
